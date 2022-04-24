@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 const getLocale = () => {
-  let locale = 'en-US'
-  const matched = window.location.href.match(/#\/([a-z-]+)\//i)
-  console.log(window.location.href)
+  let locale = 'zh-CN'
+  const matched = window.parent.location.href.match(/#\/([a-z-]+)/i)
   if (matched) {
     ;[, locale] = matched
   }
   return locale
 }
+
 const useLocale = () => {
   const [locale, setLocale] = useState(getLocale())
   const handlePopState = () => {

@@ -19,7 +19,7 @@ const Nav = () => {
                   if (!cp.show) return null
                   return (
                     <NavLink
-                      key={'navlink' + cp.name}
+                      key={Math.random()}
                       activeClassName="selected"
                       to={`/${lang}/${cp.name}`}
                     >
