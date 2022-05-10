@@ -1,10 +1,10 @@
-# TextArea 文本域-TW
+# TextArea 文本域
 
-### 介紹
+### 介绍
 
-文本框內輸入或編輯文字，支持限制輸入數量。
+文本框内输入或编辑文字，支持限制输入数量。
 
-### 安裝
+### 安装
 
 ```javascript
 
@@ -12,9 +12,9 @@ import { TextArea } from '@nutui/nutui-react';
 
 ```
 
-## 代碼演示
+## 代码演示
 
-### 基礎用法
+### 基础用法
 
 ```html
 <textarea defaultValue="{value1}" />
@@ -24,19 +24,19 @@ import { TextArea } from '@nutui/nutui-react';
 const [value1, UpdateValue1] = useState('')
 ```
 
-### 顯示字數統計
+### 显示字数统计
 
 ```html
 <textarea defaultValue="{value2}" limitShow maxlength="20" />
 ```
 
-### 高度自定義，拉伸
+### 高度自定义，拉伸
 
 ```html
 <textarea defaultValue="{value3}" rows="10" autosize />
 ```
 
-### 只讀、禁用
+### 只读、禁用
 
 ```html
 <textarea readonly defaultValue="textarea只读状态" />
@@ -49,20 +49,20 @@ const [value1, UpdateValue1] = useState('')
 
 | 参数         | 说明                                              | 类型           | 默认值         |
 | ------------ | ------------------------------------------------- | -------------- | -------------- |
-| defaultValue | 初始默認值，支持雙向綁定                          | String         | -              |
+| defaultValue | 初始默认值，支持双向绑定                          | String         | -              |
 | placeholder  | 设置占位提示文字                                  | String         | `'请输入内容'` |
-| maxlength    | 設置佔位提示文字                                  | String、Number | -              |
+| maxlength    | 限制最长输入字符                                  | String、Number | -              |
 | rows         | textarea 的高度                                   | String、Number | `2`            |
-| limitShow    | textarea 是否展示輸入字符。須配合`max-length`使用 | Boolean        | `false`        |
+| limitShow    | textarea 是否展示输入字符。须配合`max-length`使用 | Boolean        | `false`        |
 | autosize     | 高度是否可拉伸                                    | Boolean        | `false`        |
-| textAlign    | 文本位置,可選值`left`,`center`,`right`            | String         | `left`         |
-| readonly     | 只讀屬性                                          | Boolean        | `false`        |
-| disabled     | 禁用屬性                                          | Boolean        | `false`        |
+| textAlign    | 文本位置,可选值`left`,`center`,`right`            | String         | `left`         |
+| readonly     | 只读属性                                          | Boolean        | `false`        |
+| disabled     | 禁用属性                                          | Boolean        | `false`        |
 
 ### Events
 
 | 名称   | 说明           | 回调参数 |
 | ------ | -------------- | -------- |
-| change | 輸入內容時觸發 | val      |
-| focus  | 聚焦時觸發     | val      |
-| blur   | 失焦時觸發     | val      |
+| change | 输入内容时触发 | val      |
+| focus  | 聚焦时触发     | val      |
+| blur   | 失焦时触发     | val      |

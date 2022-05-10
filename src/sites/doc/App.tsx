@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
 import './App.scss'
 import useLocale from '../assets/locale/uselocale'
@@ -32,8 +32,8 @@ function myRemarkPlugin() {
 
 const App = () => {
   const [lang] = useLocale()
+  console.log('doc app')
   const getMarkdownByLang = (ru: string) => {
-    console.log(lang, 'xxx')
     if (lang == 'zh-CN') {
       // @ts-ignore
       return raws[ru]
@@ -42,6 +42,9 @@ const App = () => {
       return raws[`${ru}${lang.replace('-', '')}`]
     }
   }
+  useEffect(() => {
+    console.log('sssssss')
+  }, [lang])
   return (
     <div>
       <HashRouter>
@@ -52,7 +55,7 @@ const App = () => {
             <Switch>
               {routers.map((ru, k) => {
                 return (
-                  <Route key={k} path={`/${lang}/${ru}`}>
+                  <Route key={Math.random()} path={`/${lang}/${ru}`}>
                     <ReactMarkdown
                       children={getMarkdownByLang(ru)}
                       remarkPlugins={[remarkGfm, remarkDirective, myRemarkPlugin]}
@@ -79,13 +82,13 @@ const App = () => {
                   </Route>
                 )
               })}
-              <Route path="*">
-                <Redirect
-                  to={{
-                    pathname: '/',
-                  }}
-                />
-              </Route>
+              {/*<Route path="*">*/}
+              {/*  <Redirect*/}
+              {/*    to={{*/}
+              {/*      pathname: '/zh-CN111',*/}
+              {/*    }}*/}
+              {/*  />*/}
+              {/*</Route>*/}
             </Switch>
           </div>
           <div className="markdown-body">
