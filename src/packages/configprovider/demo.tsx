@@ -5,6 +5,7 @@ import Input from '../input'
 import enUS from '../../locales/en-US'
 import zhCN from '../../locales/zh-CN'
 import zhTW from '../../locales/zh-TW'
+import thTH from '../../locales/th-TH'
 
 const ConfigProviderDemo = () => {
   return (
@@ -22,6 +23,11 @@ const ConfigProviderDemo = () => {
         </ConfigProvider>
         <h2>Textarea 繁体中文</h2>
         <ConfigProvider locale={zhTW}>
+          <TextArea disabled limitshow maxlength="20" />
+          <Input label="Input 文本(异步)" focus={focus} blur={blur} />
+        </ConfigProvider>
+        <h2>Textarea 泰文</h2>
+        <ConfigProvider locale={thTH}>
           <TextArea disabled limitshow maxlength="20" />
           <Input label="Input 文本(异步)" focus={focus} blur={blur} />
         </ConfigProvider>
