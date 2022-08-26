@@ -301,7 +301,7 @@ export default App;
 | ------------------- | ------------------------------------------ | ------- | -------- |
 | source             | Video url and type settings                         | Object   | -        |
 | options             | Control video playback properties                          | Object  | required |
-| options.autoplay    | Auto play                               | Boolean | false    |
+| options.autoplay `Taro does not support`   | Auto play                               | Boolean | false    |
 | options.poster      | Poster settings                                | String  | -        |
 | options.loop        | Poster loop                             | Boolean | false    |
 | options.controls    | Show operation control                             | Boolean | true     |

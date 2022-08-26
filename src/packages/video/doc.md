@@ -303,7 +303,7 @@ export default App;
 | ------------------- | ------------------------------------------ | ------- | -------- |
 | source             | 视频地址和类型设置                         | Object   | -        |
 | options             | 控制视频播放属性                           | Object  | required |
-| options.autoplay    | 是否自动播放                               | Boolean | false    |
+| options.autoplay`Taro 暂不适配`     | 是否自动播放                               | Boolean | false    |
 | options.poster      | 海报设置                                   | String  | -        |
 | options.loop        | 是否循环播放                               | Boolean | false    |
 | options.controls    | 是否展示操作栏                             | Boolean | true     |
