@@ -61,20 +61,22 @@ export const CountUp: FunctionComponent<Partial<CountUpProps>> = (props) => {
       // const numberItems = countupRef.current.querySelectorAll(
       //   '.nut-countup__number'
       // )
-      const query = Taro.createSelectorQuery()
-        .selectAll('.nut-countup__number')
-        .node((numberItems: any) => {
+
+      Taro.createSelectorQuery()
+        .selectAll(`#${(countupRef.current as any).sid} .nut-countup__number`)
+        .boundingClientRect((numberItems: any) => {
           const numberFilterArr: Array<string> = numerArr.filter(
             (item: string) => !Number.isNaN(Number(item))
           )
           Object.keys(numberItems).forEach((key) => {
-            const elem = numberItems[Number(key)] as HTMLElement
+            const elem = numberItems[Number(key)]
+            const dom = document.getElementById(elem.id)
             const idx = Number(numberFilterArr[Number(key)])
-            if ((idx || idx === 0) && elem) {
+            if ((idx || idx === 0) && dom) {
               // 计算规则：父元素和实际列表高度的百分比，分割成20等份
               const transform = `translate(0, -${(idx === 0 ? 10 : idx) * 5}%)`
-              elem.style.transform = transform
-              elem.style.webkitTransform = transform
+              dom.style.transform = transform
+              dom.style.webkitTransform = transform
             }
           })
         })

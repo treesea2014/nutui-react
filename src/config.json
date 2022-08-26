@@ -766,7 +766,7 @@
           "desc": "用于实时展示倒计时数值，支持毫秒精度。",
           "sort": 17,
           "show": true,
-          "taro": false,
+          "taro": true,
           "author": "songsong"
         },
         {
@@ -799,7 +799,7 @@
           "desc": "带特效的数字",
           "sort": 7,
           "show": true,
-          "taro": false,
+          "taro": true,
           "author": "songsong"
         },
         {
@@ -842,7 +842,7 @@
           "desc": "原生video实现的视频播放器",
           "sort": 20,
           "show": true,
-          "taro": false,
+          "taro": true,
           "author": "swag~jun"
         },
         {
