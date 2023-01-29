@@ -1,18 +1,21 @@
 import * as React from 'react'
-import * as ReactDOM from 'react-dom'
+// import * as ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import bem from '@/utils/bem'
 import Icon from '@/packages/icon'
+import { render, unmount } from '@/utils/render'
 
 export interface NotificationProps {
   id?: string
   style?: React.CSSProperties
-  icon?: string
+  icon: string | null
+  iconSize: string
   msg: string | React.ReactNode
-  bottom?: boolean
-  duration?: number
+  bottom: string
+  duration: number
   center: boolean
   type: string
+  title: string
   customClass: string
   size: string | number
   textAlignCenter: boolean
@@ -26,8 +29,9 @@ export interface NotificationProps {
 }
 
 export default class Notification extends React.PureComponent<NotificationProps> {
-  private closeTimer: number | undefined
   static newInstance: (properties: NotificationProps, callback: any) => void
+
+  private closeTimer: number | undefined
 
   constructor(props: NotificationProps) {
     super(props)
@@ -76,8 +80,11 @@ export default class Notification extends React.PureComponent<NotificationProps>
 
   render() {
     const {
+      id,
       style,
       icon,
+      iconSize,
+      title,
       msg,
       bottom,
       center,
@@ -96,16 +103,18 @@ export default class Notification extends React.PureComponent<NotificationProps>
       'nut-toast-has-icon': icon,
       'nut-toast-cover': cover,
       'nut-toast-loading': type === 'loading',
-      customClass,
+      [`${customClass}`]: true,
       [`nut-toast-${size}`]: true,
     })
     return (
       <>
         <div
           className={`${toastBem()} ${classes}`}
+          id={`toast-${id}`}
           style={{
-            bottom: center ? 'auto' : `${bottom}px`,
+            bottom: center ? 'auto' : `${bottom}`,
             backgroundColor: cover ? coverColor : '',
+            ...style,
           }}
           onClick={() => {
             this.clickCover()
@@ -113,13 +122,17 @@ export default class Notification extends React.PureComponent<NotificationProps>
         >
           <div
             className={toastBem('inner')}
-            style={{ textAlign: textAlignCenter ? 'center' : 'left', backgroundColor: bgColor }}
+            style={{
+              textAlign: textAlignCenter ? 'center' : 'left',
+              backgroundColor: bgColor,
+            }}
           >
             {icon ? (
               <p className={toastBem('icon-wrapper')}>
-                <Icon name={icon || ''} size="20" />
+                <Icon name={icon || ''} color="#ffffff" size={iconSize} />
               </p>
             ) : null}
+            {title ? <div className="nut-toast-title">{title}</div> : null}
             <span className={toastBem('text')}>{msg}</span>
           </div>
         </div>
@@ -145,11 +158,11 @@ Notification.newInstance = (properties, callback) => {
     callback({
       component: instance,
       destroy() {
-        ReactDOM.unmountComponentAtNode(element)
+        unmount(element)
         element && element.parentNode && element.parentNode.removeChild(element)
       },
     })
   }
 
-  ReactDOM.render(<Notification {...properties} ref={ref} />, element)
+  render(<Notification {...properties} ref={ref} />, element)
 }

@@ -1,246 +1,404 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
+import { useTranslate } from '../../sites/assets/locale'
+import { Internation } from './doc.en'
 import Picker from './picker'
 import Cell from '@/packages/cell'
 
-interface pickerRefState {
-  updateChooseValue: (index: number, value: string, cacheValueData: any[]) => void
+interface T {
+  [props: string]: string
 }
-interface IResValue {
-  label: number
-  value: string
+interface PickerOption {
+  text: string | number
+  value: string | number
+  disabled?: string
+  children?: PickerOption[]
+  className?: string | number
 }
+
 const PickerDemo = () => {
+  const [translated] = useTranslate<T>(Internation)
+
   const [isVisible1, setIsVisible1] = useState(false)
   const [isVisible2, setIsVisible2] = useState(false)
   const [isVisible3, setIsVisible3] = useState(false)
+  const [isVisible4, setIsVisible4] = useState(false)
+  const [isVisible5, setIsVisible5] = useState(false)
+  const [isVisible6, setIsVisible6] = useState(false)
+
   const [cityCustmer, setCityCustmer] = useState('')
-  const pickerRef1 = useRef<pickerRefState>(null)
-  const pickerRef2 = useRef<pickerRefState>(null)
-  const pickerRef3 = useRef<pickerRefState>(null)
-  const APIData = [
-    {
-      label: 1,
-      array: [
-        {
-          label: 1,
-          value: '朝阳区',
-        },
-        {
-          label: 2,
-          value: '海淀区',
-        },
-        {
-          label: 3,
-          value: '大兴区',
-        },
-        {
-          label: 4,
-          value: '东城区',
-        },
-        {
-          label: 5,
-          value: '西城区',
-        },
-        {
-          label: 6,
-          value: '丰台区',
-        },
-      ],
-    },
-    {
-      label: 2,
-      array: [
-        {
-          label: 1,
-          value: '黄浦区',
-        },
-        {
-          label: 2,
-          value: '长宁区',
-        },
-        {
-          label: 3,
-          value: '普陀区',
-        },
-        {
-          label: 4,
-          value: '杨浦区',
-        },
-        {
-          label: 5,
-          value: '浦东新区',
-        },
-      ],
-    },
-  ]
+  const [baseDesc, setBaseDesc] = useState('')
+  const [baseDefault, setbaseDefault] = useState('')
+  const [mutilDesc, setMutilDesc] = useState('')
+  const [asyncDesc, setasyncDesc] = useState('')
+  const [tileDesc, settileDesc] = useState('')
+
+  const [defaultValue, setDefaultValue] = useState([2])
+
   const listData1 = [
     [
       {
-        label: 1,
-        value: '南京市',
+        value: 1,
+        text: translated.nanJing,
       },
       {
-        label: 2,
-        value: '无锡市',
+        value: 2,
+        text: translated.wuXi,
       },
       {
-        label: 3,
-        value: '海北藏族自治区',
+        value: 3,
+        text: translated.zangZu,
       },
       {
-        label: 4,
-        value: '北京市',
+        value: 4,
+        text: translated.beiJing,
       },
       {
-        label: 5,
-        value: '连云港市',
+        value: 5,
+        text: translated.lianYunGang,
       },
       {
-        label: 6,
-        value: '浙江市',
+        value: 6,
+        text: translated.zheJiang,
       },
       {
-        label: 7,
-        value: '江苏市',
+        value: 7,
+        text: translated.jiangSu,
       },
       {
-        label: 8,
-        value: '大庆市',
+        value: 8,
+        text: translated.daQing,
       },
       {
-        label: 9,
-        value: '绥化市',
+        value: 9,
+        text: translated.suiHua,
       },
       {
-        label: 10,
-        value: '潍坊市',
+        value: 10,
+        text: translated.weiFang,
       },
       {
-        label: 11,
-        value: '请按市',
+        value: 11,
+        text: translated.anshi,
       },
       {
-        label: 12,
-        value: '乌鲁木齐市',
+        value: 12,
+        text: translated.wlmq,
       },
     ],
-  ]
-  const listData2 = [
-    ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-    ['上午', '下午', '晚上'],
   ]
 
-  const [custmerCityData, setCustmerCityData] = useState([
+  const listData2 = [
+    // 第一列
     [
-      {
-        label: 1,
-        value: '北京',
-      },
-      {
-        label: 2,
-        value: '上海',
-      },
+      { text: translated.monday, value: 'Monday' },
+      { text: translated.tuesday, value: 'Tuesday' },
+      { text: translated.wednesday, value: 'Wednesday' },
+      { text: translated.thursday, value: 'Thursday' },
+      { text: translated.friday, value: 'Friday' },
     ],
+    // 第二列
+    [
+      { text: translated.morning, value: 'Morning' },
+      { text: translated.afternoon, value: 'Afternoon' },
+      { text: translated.evening, value: 'Evening' },
+    ],
+  ]
+
+  const custmerCityData = [
+    {
+      value: 1,
+      text: translated.beiJing,
+      children: [
+        {
+          value: 1,
+          text: translated.chaoYang,
+        },
+        {
+          value: 2,
+          text: translated.haiDian,
+        },
+        {
+          value: 3,
+          text: translated.daXing,
+        },
+        {
+          value: 4,
+          text: translated.dongCheng,
+        },
+        {
+          value: 5,
+          text: translated.xiCheng,
+        },
+        {
+          value: 6,
+          text: translated.fengTai,
+        },
+      ],
+    },
+    {
+      value: 2,
+      text: translated.shangHai,
+      children: [
+        {
+          value: 1,
+          text: translated.huangPu,
+        },
+        {
+          value: 2,
+          text: translated.changNing,
+        },
+        {
+          value: 3,
+          text: translated.puTuo,
+        },
+        {
+          value: 4,
+          text: translated.yangPu,
+        },
+        {
+          value: 5,
+          text: translated.puDong,
+        },
+      ],
+    },
+  ]
+
+  // 动态获取
+  const [asyncData, setAsyncData] = useState([
+    {
+      value: 1,
+      text: translated.beiJing,
+      children: [
+        {
+          value: 1,
+          text: translated.chaoYang,
+        },
+        {
+          value: 2,
+          text: translated.haiDian,
+        },
+        {
+          value: 3,
+          text: translated.daXing,
+        },
+        {
+          value: 4,
+          text: translated.dongCheng,
+        },
+        {
+          value: 5,
+          text: translated.xiCheng,
+        },
+        {
+          value: 6,
+          text: translated.fengTai,
+        },
+      ],
+    },
+    {
+      value: 2,
+      text: translated.shangHai,
+      children: [],
+    },
   ])
 
-  const setChooseValueCustmer = (chooseData: any[]) => {
-    const str = chooseData.map((item) => item.value).join('-')
+  const setChooseValueCustmer = (
+    values: (string | number)[],
+    options: PickerOption[]
+  ) => {
+    console.log(values, options)
+    const str = options.map((item) => item.text).join('-')
     setCityCustmer(str)
-    console.log('多级联动用法选中项：', str)
   }
 
-  const closeUpdateChooseValueCustmer = (chooseData: any[], ref: any) => {
-    // 此处模拟查询API，如果数据缓存了不需要再重新请求
-    setTimeout(() => {
-      const { label, value } = chooseData[0]
-      const resItems = APIData.find((item) => item.label == label)
-      if (resItems && resItems.array.length) {
-        setCustmerCityData((data) => {
-          const result = [...data]
-          result[1] = resItems?.array || []
-          return result
-        })
-
-        // 复原位置
-        ref.current?.updateChooseValue(0, chooseData[0])
-        ref.current?.updateChooseValue(1, chooseData[1])
-      }
-    }, 100)
+  const setAsyncConfirm = (
+    values: (string | number)[],
+    options: PickerOption[]
+  ) => {
+    console.log(values, options)
+    const str = options.map((item) => item.text).join('-')
+    setasyncDesc(str)
   }
 
-  const updateChooseValueCustmer = (index: number, resValue: IResValue, cacheValueData: any[]) => {
-    // 本demo为二级联动，所以限制只有首列变动的时候触发事件
-    if (index === 0) {
-      // 此处模拟查询API，如果数据缓存了不需要再重新请求
-      const { label, value } = resValue
+  const updateChooseValueCustmer = (
+    columnIndex: number,
+    values: (string | number)[],
+    options: PickerOption[]
+  ) => {
+    console.log(columnIndex, values, options)
+    if (columnIndex === 0 && values[0] === 2) {
       setTimeout(() => {
-        const resItems = APIData.find((item) => item.label == label)
-        if (resItems && resItems.array.length) {
-          let cityData: any[] = []
-          setCustmerCityData((data) => {
-            const result = [...data]
-            result[1] = resItems?.array || []
-            cityData = [...result]
-            return result
-          })
-          setTimeout(() => {
-            // 更新第二列位置
-            pickerRef3.current?.updateChooseValue(index + 1, cityData[1]?.[0], cacheValueData)
-          }, 200)
+        if (asyncData[1].children.length === 0) {
+          asyncData[1].children = [
+            {
+              value: 1,
+              text: translated.huangPu,
+            },
+            {
+              value: 2,
+              text: translated.changNing,
+            },
+            {
+              value: 3,
+              text: translated.puTuo,
+            },
+            {
+              value: 4,
+              text: translated.yangPu,
+            },
+            {
+              value: 5,
+              text: translated.puDong,
+            },
+          ]
+
+          setAsyncData([...asyncData])
         }
       }, 100)
+    }
+  }
+
+  // 切换选择项
+  const changePicker = (columnIndex: number, values: any, options: any[]) => {}
+  // 确定选择
+  const confirmPicker = (
+    type: string,
+    values: (string | number)[],
+    options: PickerOption[]
+  ) => {
+    console.log('demo 确定')
+    let desc = ''
+    options.forEach((option: any) => {
+      desc += option.text
+    })
+    if (type === 'base') {
+      setBaseDesc(desc)
+    }
+    if (type === 'mutil') {
+      setMutilDesc(desc)
+    }
+
+    if (type === 'default') {
+      setbaseDefault(desc)
+      setDefaultValue([options[0].value as number])
+    }
+
+    if (type === 'tile') {
+      settileDesc(desc)
     }
   }
   return (
     <>
       <div className="demo">
-        <h2>基础用法</h2>
-        <Cell isLink onClick={() => setIsVisible1(!isVisible1)}>
-          <span>
-            <label>基础用法</label>
-          </span>
-        </Cell>
+        <h2>{translated.basic}</h2>
+        <Cell
+          title={translated.chooseCity}
+          desc={baseDesc}
+          onClick={() => setIsVisible1(!isVisible1)}
+        />
         <Picker
+          title={translated.chooseCity}
           isVisible={isVisible1}
           listData={listData1}
+          onConfirm={(values, list) => confirmPicker('base', values, list)}
           onClose={() => setIsVisible1(false)}
-          defaultValueData={[]}
-          ref={pickerRef1}
+          onChange={changePicker}
         />
-        <h2>多列用法</h2>
-        <Cell isLink onClick={() => setIsVisible2(!isVisible2)}>
-          <span>
-            <label>多列用法</label>
-          </span>
-        </Cell>
+
+        <h2>{translated.defaultSelected}</h2>
+        <Cell
+          title={translated.chooseCity}
+          desc={baseDefault}
+          onClick={() => setIsVisible4(!isVisible4)}
+        />
+        <Picker
+          isVisible={isVisible4}
+          listData={listData1}
+          onConfirm={(values, list) => confirmPicker('default', values, list)}
+          defaultValueData={defaultValue}
+          onClose={() => setIsVisible4(false)}
+          onChange={changePicker}
+        />
+
+        <h2>{translated.multipleColumns}</h2>
+        <Cell
+          title={translated.multipleColumns}
+          desc={mutilDesc}
+          onClick={() => setIsVisible2(!isVisible2)}
+        />
         <Picker
           isVisible={isVisible2}
           listData={listData2}
           onClose={() => setIsVisible2(false)}
-          defaultValueData={['周四', '下午']}
-          onConfirm={(list: any[]) => console.log('多列用法选中项：', list)}
-          ref={pickerRef2}
+          defaultValueData={['Wednesday']}
+          onChange={changePicker}
+          onConfirm={(values, list) => confirmPicker('mutil', values, list)}
         />
-        <h2>多级联动</h2>
-        <Cell isLink onClick={() => setIsVisible3(!isVisible3)}>
-          <span>
-            <label>
-              多级联动
-              <span>{cityCustmer}</span>
-            </label>
-          </span>
-        </Cell>
+        <h2>{translated.tileDesc}</h2>
+        <Cell
+          title={translated.chooseCity}
+          desc={tileDesc}
+          onClick={() => setIsVisible6(!isVisible6)}
+        />
+        <Picker
+          isVisible={isVisible6}
+          listData={listData1}
+          onConfirm={(values, list) => confirmPicker('tile', values, list)}
+          defaultValueData={defaultValue}
+          threeDimensional={false}
+          swipeDuration={1000}
+          onClose={() => setIsVisible6(false)}
+          onChange={changePicker}
+        />
+
+        <h2>{translated.cascade}</h2>
+        <Cell
+          title={translated.cascade}
+          desc={cityCustmer}
+          onClick={() => setIsVisible3(!isVisible3)}
+        />
+
         <Picker
           isVisible={isVisible3}
           listData={custmerCityData}
           onClose={() => setIsVisible3(false)}
-          defaultValueData={[]}
-          onConfirm={(list: any[]) => setChooseValueCustmer(list)}
-          onChoose={(index: number, value: IResValue, list: any[]) =>
-            updateChooseValueCustmer(index, value, list)
+          onConfirm={(values, list: PickerOption[]) =>
+            setChooseValueCustmer(values, list)
           }
-          onCloseUpdate={(list: any[]) => closeUpdateChooseValueCustmer(list, pickerRef3)}
-          ref={pickerRef3}
+          onChange={(
+            columnIndex: number,
+            value: (string | number)[],
+            options: PickerOption[]
+          ) =>
+            console.log(
+              asyncData,
+              translated.cascade,
+              columnIndex,
+              value,
+              options
+            )
+          }
+        />
+
+        <h2>{translated.async}</h2>
+        <Cell
+          title={translated.chooseCity}
+          desc={asyncDesc}
+          onClick={() => setIsVisible5(!isVisible5)}
+        />
+
+        <Picker
+          isVisible={isVisible5}
+          listData={custmerCityData}
+          onClose={() => setIsVisible5(false)}
+          onConfirm={(values, list: PickerOption[]) =>
+            setAsyncConfirm(values, list)
+          }
+          onChange={(
+            columnIndex: number,
+            value: (string | number)[],
+            options: PickerOption[]
+          ) => updateChooseValueCustmer(columnIndex, value, options)}
         />
       </div>
     </>

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { compressText, copyCodeHtml, decompressText } from './basedUtil'
 interface A {
   text: string
+  scss: string
+  children?: React.ReactNode
 }
 const DemoBlock: React.FunctionComponent<A> = (props) => {
   const [onlineUrl, setOnlineUrl] = useState('')
@@ -20,7 +22,8 @@ ReactDOM.render(
 
     const sourceMainReactJs = compressText(sourceMainReactJsStr)
     const sourceReactJs = compressText(props.text)
-    const onlineUrl = `https://codehouse.jd.com/?source=share&type=react&mainJs=${sourceMainReactJs}&appValue=${sourceReactJs}&scssValue=`
+    const sourceScss = compressText(props.scss || '')
+    const onlineUrl = `https://codehouse.jd.com/?source=share&type=react&mainJs=${sourceMainReactJs}&appValue=${sourceReactJs}&scssValue=${sourceScss}`
     setOnlineUrl(onlineUrl)
   }, [])
   const copyCode = () => {

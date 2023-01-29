@@ -6,16 +6,28 @@ import '@testing-library/jest-dom'
 import { Price } from '../price'
 
 test('props test', () => {
-  const { container } = render(<Price price={1010} needSymbol={false} thousands />)
-  expect(container.querySelector('.nut-price__big')?.innerHTML).toBe('1,010')
-  expect(container.querySelector('.nut-price__small')?.innerHTML).toBe('00')
+  const { container } = render(
+    <Price price={1010} needSymbol={false} thousands />
+  )
+  expect(container.querySelector('.nut-price__integer')?.innerHTML).toBe(
+    '1,010'
+  )
+  expect(container.querySelectorAll('.nut-price__decimal')[1]?.innerHTML).toBe(
+    '00'
+  )
   expect(container).toMatchSnapshot()
 })
 
 test('props thousands test', () => {
-  const { container } = render(<Price price={10010.01} needSymbol symbol="$" thousands={false} />)
-  expect(container.querySelector('.nut-price__big')?.innerHTML).toBe('10010')
-  expect(container.querySelector('.nut-price__small')?.innerHTML).toBe('01')
+  const { container } = render(
+    <Price price={10010.01} needSymbol symbol="$" thousands={false} />
+  )
+  expect(container.querySelector('.nut-price__integer')?.innerHTML).toBe(
+    '10010'
+  )
+  expect(container.querySelectorAll('.nut-price__decimal')[1]?.innerHTML).toBe(
+    '01'
+  )
   expect(container).toMatchSnapshot()
 })
 
@@ -28,6 +40,8 @@ test('props needSymbol and symbol test', () => {
 
 test('props decimalDigits test', () => {
   const { container } = render(<Price price={15213.1221} decimalDigits={3} />)
-  expect(container.querySelector('.nut-price__small')?.innerHTML).toBe('122')
+  expect(container.querySelectorAll('.nut-price__decimal')[1]?.innerHTML).toBe(
+    '122'
+  )
   expect(container).toMatchSnapshot()
 })

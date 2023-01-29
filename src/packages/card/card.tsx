@@ -14,15 +14,15 @@ export interface CardProps {
   shopName: string
   className: string
   style: React.CSSProperties
-  prolistTpl: React.ReactChild
-  shopTagTpl: React.ReactChild
-  originTpl: React.ReactChild
-  footerTpl: React.ReactChild
+  prolistTpl: React.ReactNode
+  shopTagTpl: React.ReactNode
+  originTpl: React.ReactNode
+  footerTpl: React.ReactNode
 }
 const defaultProps = {} as CardProps
-export const Card: FunctionComponent<Partial<CardProps> & React.HTMLAttributes<HTMLDivElement>> = (
-  props
-) => {
+export const Card: FunctionComponent<
+  Partial<CardProps> & React.HTMLAttributes<HTMLDivElement>
+> = (props) => {
   const {
     className,
     style,
@@ -53,7 +53,9 @@ export const Card: FunctionComponent<Partial<CardProps> & React.HTMLAttributes<H
         {prolistTpl}
         <div className={b('right__price')}>
           <Price price={price} />
-          {originTpl || <Price className={b('right__price__origin')} price={vipPrice} />}
+          {originTpl || (
+            <Price className={b('right__price__origin')} price={vipPrice} />
+          )}
         </div>
         <div className={b('right__other')}>
           {shopTagTpl || (

@@ -6,7 +6,10 @@
     
 ### 安装
 ``` javascript
+// react
 import { Pagination } from '@nutui/nutui-react';
+// taro
+import { Pagination } from '@nutui/nutui-react-taro';
 ```    
 
 ### 基础用法
@@ -101,7 +104,7 @@ const App = () => {
     setCurrentPage4(c)
   }
   const pageNodeRender = (page: any) => {
-    return <div>{page.number == 3 ? 'hot' : page.text}</div>
+    return <div>{page.number === 3 ? 'hot' : page.text}</div>
   }
   return (
     <Pagination

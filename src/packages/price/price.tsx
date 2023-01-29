@@ -8,6 +8,8 @@ export interface PriceProps {
   symbol: string
   decimalDigits: number
   thousands: boolean
+  position: string
+  size: string
   className: string
   style: React.CSSProperties
 }
@@ -17,27 +19,43 @@ const defaultProps = {
   symbol: '&yen;',
   decimalDigits: 2,
   thousands: false,
+  position: 'before',
+  size: 'large',
   className: '',
 } as PriceProps
 export const Price: FunctionComponent<Partial<PriceProps>> = (props) => {
-  const { price, needSymbol, symbol, decimalDigits, thousands, className, ...rest } = {
+  const {
+    price,
+    needSymbol,
+    symbol,
+    decimalDigits,
+    thousands,
+    position,
+    size,
+    className,
+    ...rest
+  } = {
     ...defaultProps,
     ...props,
   }
   const b = bem('price')
+
   const showSymbol = () => {
-    return { __html: (needSymbol ? symbol : '') || '' }
+    return { __html: needSymbol ? symbol : '' }
   }
+
   const checkPoint = (price: string | number) => {
     return String(price).indexOf('.') > 0
   }
+
   const formatThousands = (num: any) => {
-    if (Number(num) == 0) {
+    if (Number(num) === 0) {
       num = 0
     }
     if (checkPoint(num)) {
       num = Number(num).toFixed(decimalDigits)
-      num = typeof num.split('.') === 'string' ? num.split('.') : num.split('.')[0]
+      num =
+        typeof num.split('.') === 'string' ? num.split('.') : num.split('.')[0]
     } else {
       num = num.toString()
     }
@@ -46,14 +64,18 @@ export const Price: FunctionComponent<Partial<PriceProps>> = (props) => {
     }
     return num
   }
+
   const formatDecimal = (decimalNum: any) => {
-    if (Number(decimalNum) == 0) {
+    if (Number(decimalNum) === 0) {
       decimalNum = 0
     }
 
     if (checkPoint(decimalNum)) {
       decimalNum = Number(decimalNum).toFixed(decimalDigits)
-      decimalNum = typeof decimalNum.split('.') === 'string' ? 0 : decimalNum.split('.')[1]
+      decimalNum =
+        typeof decimalNum.split('.') === 'string'
+          ? 0
+          : decimalNum.split('.')[1] || 0
     } else {
       decimalNum = 0
     }
@@ -61,14 +83,29 @@ export const Price: FunctionComponent<Partial<PriceProps>> = (props) => {
     const resultFixed = Number(result).toFixed(decimalDigits)
     return String(resultFixed).substring(2, resultFixed.length)
   }
+
+  const renderSymbol = () => {
+    return (
+      <div
+        className={`${b('symbol')} ${b(`symbol-${size}`)}`}
+        dangerouslySetInnerHTML={showSymbol()}
+      />
+    )
+  }
+
   return (
     <div className={`${b()} ${className}`} {...rest}>
-      {needSymbol ? (
-        <div className={`${b('symbol')}`} dangerouslySetInnerHTML={showSymbol()} />
+      {needSymbol && position === 'before' ? renderSymbol() : null}
+      <div className={`${b('integer')} ${b(`integer-${size}`)}`}>
+        {formatThousands(price)}
+      </div>
+      {decimalDigits !== 0 ? (
+        <div className={`${b('decimal')} ${b(`decimal-${size}`)}`}>.</div>
       ) : null}
-      <div className={`${b('big')}`}>{formatThousands(price)}</div>
-      <div className={`${b('point')}`}>.</div>
-      <div className={`${b('small')}`}>{formatDecimal(price)}</div>
+      <div className={`${b('decimal')} ${b(`decimal-${size}`)}`}>
+        {formatDecimal(price)}
+      </div>
+      {needSymbol && position === 'after' ? renderSymbol() : null}
     </div>
   )
 }

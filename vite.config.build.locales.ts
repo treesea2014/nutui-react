@@ -7,18 +7,23 @@ const config = require('./package.json')
 
 const banner = `/*!
 * ${config.name} v${config.version} ${new Date()}
-* (c) 2022 @jdf2e.
+* (c) 2023 @jdf2e.
 * Released under the MIT License.
 */`
+
 interface Entries {
   [key: string]: string
 }
+
 const entries: Entries = {}
 
 const locales = glob.sync(`./src/locales/*.ts`)
 
 locales.forEach((item: string) => {
-  entries[item.replace('.ts', '').replace('./src/locales/', '')] = path.join(__dirname, item)
+  entries[item.replace('.ts', '').replace('./src/locales/', '')] = path.join(
+    __dirname,
+    item
+  )
 })
 
 export default defineConfig({

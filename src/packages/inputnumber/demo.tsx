@@ -4,7 +4,7 @@ import { InputNumber } from './inputnumber'
 import Cell from '@/packages/cell'
 import Toast from '@/packages/toast'
 
-interface IValState {
+interface ValState {
   val1: number | string
   val2: number | string
   val3: number | string
@@ -67,7 +67,7 @@ const InputNumberDemo = () => {
     },
   })
 
-  const [inputState, setInputState] = useState<IValState>({
+  const [inputState, setInputState] = useState<ValState>({
     val1: 1,
     val2: 0,
     val3: 10,
@@ -102,7 +102,12 @@ const InputNumberDemo = () => {
         </Cell>
         <h2>{translated['9636103a']}</h2>
         <Cell>
-          <InputNumber modelValue={inputState.val3} min="10" max="20" overlimit={overlimit} />
+          <InputNumber
+            modelValue={inputState.val3}
+            min="10"
+            max="20"
+            onOverlimit={overlimit}
+          />
         </Cell>
         <h2>{translated['181965e2']}</h2>
         <Cell>
@@ -114,15 +119,28 @@ const InputNumberDemo = () => {
         </Cell>
         <h2>{translated['3a42134b']}</h2>
         <Cell>
-          <InputNumber modelValue={inputState.val6} step="0.1" decimalPlaces="1" readonly />
+          <InputNumber
+            modelValue={inputState.val6}
+            step="0.1"
+            decimalPlaces="1"
+            readonly
+          />
         </Cell>
         <h2>{translated['65bafb1d']}</h2>
         <Cell>
-          <InputNumber modelValue={inputState.val7} change={onChange} isAsync />
+          <InputNumber
+            modelValue={inputState.val7}
+            onChangeFuc={onChange}
+            isAsync
+          />
         </Cell>
         <h2>{translated['7e2394ae']}</h2>
         <Cell>
-          <InputNumber modelValue={inputState.val8} buttonSize="30" inputWidth="50" />
+          <InputNumber
+            modelValue={inputState.val8}
+            buttonSize="30"
+            inputWidth="50"
+          />
         </Cell>
       </div>
     </>

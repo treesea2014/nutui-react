@@ -1,8 +1,10 @@
-import React, { CSSProperties, FunctionComponent } from 'react'
+import React, { CSSProperties, FunctionComponent, ReactNode } from 'react'
 
 import Icon from '@/packages/icon'
 
-export interface BadgeProps {
+import { BasicComponent, ComponentDefaults } from '@/utils/typings'
+
+export interface BadgeProps extends BasicComponent {
   value: any
   dot: boolean
   max: number
@@ -11,10 +13,13 @@ export interface BadgeProps {
   zIndex: string
   color: string
   icons: any
+  children?: ReactNode
 }
 
 export type BadgeType = 'default' | 'primary' | 'success' | 'warning' | 'danger'
+
 const defaultProps = {
+  ...ComponentDefaults,
   value: '',
   dot: false,
   max: 10000,
@@ -25,12 +30,24 @@ const defaultProps = {
   icons: '',
 } as BadgeProps
 export const Badge: FunctionComponent<Partial<BadgeProps>> = (props) => {
-  const { children, dot, top, right, zIndex, color, icons } = {
+  const {
+    className,
+    style,
+    children,
+    dot,
+    top,
+    right,
+    zIndex,
+    color,
+    icons,
+    iconClassPrefix,
+    iconFontClassName,
+  } = {
     ...defaultProps,
     ...props,
   }
-  const content = () => {
-    if (dot) return
+  function content() {
+    if (dot) return undefined
     const { value } = props
     const { max } = props
     if (typeof value === 'number' && typeof max === 'number') {
@@ -40,21 +57,31 @@ export const Badge: FunctionComponent<Partial<BadgeProps>> = (props) => {
   }
   const getStyle = () => {
     const style: CSSProperties = {}
-    style.top = `${top}px`
-    style.right = `${right}px`
+    style.top = `${Number(top) || parseFloat(top) || 0}px`
+    style.right = `${Number(right) || parseFloat(right) || 0}px`
     style.zIndex = zIndex
     style.background = color
     return style
   }
   return (
-    <div className="nut-badge">
-      {icons != '' && (
+    <div className={`nut-badge ${className}`} style={style}>
+      {icons !== '' && (
         <div className="slot-icons">
-          <Icon className="_icon" name={icons} color="#ffffff" size="12" />
+          <Icon
+            classPrefix={iconClassPrefix}
+            fontClassName={iconFontClassName}
+            className="_icon"
+            name={icons}
+            color="#ffffff"
+            size="12"
+          />
         </div>
       )}
       <div>{children}</div>
-      <div className={`${dot ? 'is-dot' : ''} nut-badge__content sup`} style={getStyle()}>
+      <div
+        className={`${dot ? 'is-dot' : ''} nut-badge__content sup`}
+        style={getStyle()}
+      >
         {content()}
       </div>
     </div>

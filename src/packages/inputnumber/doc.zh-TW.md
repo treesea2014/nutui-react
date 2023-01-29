@@ -1,20 +1,19 @@
-# InputNumber 数字输入框
+# InputNumber 數字輸入框
 
-### 介绍
+### 介紹
 
-通过点击按钮控制数字增减。
+通過點擊按鈕控制數字增減。
 
-### 安装
-
+### 安裝
 ``` ts
+// react
 import { InputNumber } from '@nutui/nutui-react';
+// taro
+import { InputNumber } from '@nutui/nutui-react-taro';
 ```
+### 基礎用法
 
-## 代码演示
-
-### 基础用法
-
-初始化一个默认值
+初始化一個默認值
 
 :::demo
 ```tsx
@@ -23,18 +22,11 @@ import { InputNumber } from '@nutui/nutui-react';
 
 const App = () => {
   const [inputState, setInputState] = useState({
-    val1: 1,
-    val2: 0,
-    val3: 10,
-    val4: 0,
-    val5: 1,
-    val6: 5.5,
-    val7: 1,
-    val8: 1,
+    val: 1,
   })
   return (
     <>
-      <InputNumber modelValue={inputState.val1} />
+      <InputNumber modelValue={inputState.val} />
     </>
   )
 }
@@ -42,9 +34,9 @@ export default App;
 ```
 :::
 
-### 步长设置
+### 步長設置
 
-设置步长 `step` 5 
+設置步長 `step` 5 
 
 :::demo
 ```tsx
@@ -53,18 +45,11 @@ import { InputNumber } from '@nutui/nutui-react';
 
 const App = () => {
   const [inputState, setInputState] = useState({
-    val1: 1,
-    val2: 0,
-    val3: 10,
-    val4: 0,
-    val5: 1,
-    val6: 5.5,
-    val7: 1,
-    val8: 1,
+    val: 0,
   })
   return (
     <>
-      <InputNumber modelValue={inputState.val2} step="5" />
+      <InputNumber modelValue={inputState.val} step="5" />
     </>
   )
 }
@@ -72,9 +57,9 @@ export default App;
 ```
 :::
 
-### 限制输入范围
+### 限制輸入範圍
 
-`min` 和 `max` 属性分别表示最小值和最大值
+`min` 和 `max` 屬性分別表示最小值和最大值
 
 :::demo
 ```tsx
@@ -83,22 +68,15 @@ import { InputNumber } from '@nutui/nutui-react';
 
 const App = () => {
   const [inputState, setInputState] = useState({
-    val1: 1,
-    val2: 0,
-    val3: 10,
-    val4: 0,
-    val5: 1,
-    val6: 5.5,
-    val7: 1,
-    val8: 1,
+    val: 10,
   })
   const overlimit = (e: MouseEvent) => {
     console.log(e)
-    Toast.warn('超出限制事件触发')
+    Toast.warn('超出限制事件觸發')
   }
   return (
     <>
-      <InputNumber modelValue={inputState.val3} min="10" max="20" overlimit={overlimit} />
+      <InputNumber modelValue={inputState.val} min="10" max="20" onOverlimit={overlimit} />
     </>
   )
 }
@@ -106,9 +84,9 @@ export default App;
 ```
 :::
 
-### 禁用状态
+### 禁用狀態
 
-`disabled` 禁用状态下无法点击按钮或修改输入框。
+`disabled` 禁用狀態下無法點擊按鈕或修改輸入框。
 
 :::demo
 ```tsx
@@ -117,18 +95,11 @@ import { InputNumber } from '@nutui/nutui-react';
 
 const App = () => {
   const [inputState, setInputState] = useState({
-    val1: 1,
-    val2: 0,
-    val3: 10,
-    val4: 0,
-    val5: 1,
-    val6: 5.5,
-    val7: 1,
-    val8: 1,
+    val: 0,
   })
   return (
     <>
-      <InputNumber modelValue={inputState.val4} disabled />
+      <InputNumber modelValue={inputState.val} disabled />
     </>
   )
 }
@@ -136,9 +107,9 @@ export default App;
 ```
 :::
 
-### 只读禁用输入框
+### 只讀禁用輸入框
 
-`readonly` 设置只读禁用输入框输入行为
+`readonly` 設置只讀禁用輸入框輸入行為
 
 :::demo
 ```tsx
@@ -147,18 +118,11 @@ import { InputNumber } from '@nutui/nutui-react';
 
 const App = () => {
   const [inputState, setInputState] = useState({
-    val1: 1,
-    val2: 0,
-    val3: 10,
-    val4: 0,
-    val5: 1,
-    val6: 5.5,
-    val7: 1,
-    val8: 1,
+    val: 1,
   })
   return (
     <>
-      <InputNumber modelValue={inputState.val5} readonly />
+      <InputNumber modelValue={inputState.val} readonly />
     </>
   )
 }
@@ -166,9 +130,9 @@ export default App;
 ```
 :::
 
-### 支持小数点
+### 支持小數點
 
-设置步长 `step` 0.1  `decimal-places` 小数保留1位
+設置步長 `step` 0.1  `decimal-places` 小數保留1位
 
 :::demo
 ```tsx
@@ -177,27 +141,20 @@ import { InputNumber } from '@nutui/nutui-react';
 
 const App = () => {
   const [inputState, setInputState] = useState({
-    val1: 1,
-    val2: 0,
-    val3: 10,
-    val4: 0,
-    val5: 1,
-    val6: 5.5,
-    val7: 1,
-    val8: 1,
+    val: 5.5,
   })
   return (
     <>
-      <InputNumber modelValue={inputState.val6} step="0.1" decimalPlaces="1" readonly />
+      <InputNumber modelValue={inputState.val} step="0.1" decimalPlaces="1" readonly />
     </>
   )
 }
 export default App;
 ```
 :::
-### 支持异步修改
+### 支持異步修改
 
-通过 `change` 事件和 `model-value` 进行异步修改
+通過 `change` 事件和 `model-value` 進行異步修改
 
 :::demo
 ```tsx
@@ -206,17 +163,10 @@ import { InputNumber, Toast } from '@nutui/nutui-react';
 
 const App = () => {
   const [inputState, setInputState] = useState({
-    val1: 1,
-    val2: 0,
-    val3: 10,
-    val4: 0,
-    val5: 1,
-    val6: 5.5,
-    val7: 1,
-    val8: 1,
+    val: 1,
   })
   const onChange = (value: string | number) => {
-    Toast.loading('异步演示 2 秒后更改')
+    Toast.loading('異步演示 2 秒後更改')
     setTimeout(() => {
       inputState.val7 = Number(value)
       setInputState({ ...inputState })
@@ -225,7 +175,7 @@ const App = () => {
   }
   return (
     <>
-      <InputNumber modelValue={inputState.val7} change={onChange} isAsync />
+      <InputNumber modelValue={inputState.val} onChangeFuc={onChange} isAsync />
     </>
   )
 }
@@ -233,9 +183,7 @@ export default App;
 ```
 :::
 
-### 自定义按钮大小
-
-设置步长 `step` 0.1  `decimal-places` 小数保留1位
+### 自定義按鈕大小
 
 :::demo
 ```tsx
@@ -244,18 +192,11 @@ import { InputNumber, Toast } from '@nutui/nutui-react';
 
 const App = () => {
   const [inputState, setInputState] = useState({
-    val1: 1,
-    val2: 0,
-    val3: 10,
-    val4: 0,
-    val5: 1,
-    val6: 5.5,
-    val7: 1,
-    val8: 1,
+    val: 1,
   })
   return (
     <>
-      <InputNumber modelValue={inputState.val8} buttonSize="30" inputWidth="50" />
+      <InputNumber modelValue={inputState.val} buttonSize="30" inputWidth="50" />
     </>
   )
 }
@@ -267,26 +208,32 @@ export default App;
 
 ### Props
 
-| 参数           | 说明                       | 类型           | 默认值     |
+| 參數         | 說明                       | 類型           | 默認值     |
 |----------------|----------------------------|----------------|------------|
 | modelValue        | 初始值                     | String、Number | -          |
-| inputWidth    | 输入框宽度                 | String         | `40px`     |
+| inputWidth    | 輸入框寬度                 | String         | `40px`     |
 | buttonSize    | 操作符+、-尺寸             | String         | `20px`     |
 | min            | 最小值限制                 | String、Number | `1`        |
 | max            | 最大值限制                 | String、Number | `9999` |
-| step           | 步长                       | String、Number | `1`        |
-| decimalPlaces | 设置保留的小数位           | String、Number | `0`        |
+| step           | 步長                       | String、Number | `1`        |
+| decimalPlaces | 設置保留的小數位           | String、Number | `0`        |
 | disabled       | 禁用所有功能               | Boolean        | false      |
-| readonly       | 只读状态禁用输入框操作行为 | Boolean        | false      |
-| isAsync       | 支持异步修改 | Boolean        | false      |
+| readonly       | 只讀狀態禁用輸入框操作行為 | Boolean        | false      |
+| isAsync       | 支持異步修改 | Boolean        | false      |
 
 ### Events
 
-| 事件名    | 说明                   | 回调参数                       |
+| 事件名    | 說明                   | 回調參數                       |
 |-----------|------------------------|--------------------------------|
-| add       | 点击增加按钮时触发     | event: Event                   |
-| reduce    | 点击减少按钮时触发     | event: Event                   |
-| overlimit | 点击不可用的按钮时触发 | event: Event                   |
-| change    | 值改变时触发           | value:  number , event : Event |
-| blur      | 输入框失去焦点时触发   | event: Event                   |
-| focus     | 输入框获得焦点时触发   | event: Event                   |
+| add `v1.3.8廢棄`       | 點擊增加按鈕時觸發     | event: Event                   |
+| reduce `v1.3.8廢棄`    | 點擊減少按鈕時觸發     | event: Event                   |
+| overlimit `v1.3.8廢棄` | 點擊不可用的按鈕時觸發 | event: Event                   |
+| change `v1.3.8廢棄`    | 值改變時觸發           | value:  number , event : Event |
+| blur `v1.3.8廢棄`      | 輸入框失去焦點時觸發   | event: Event                   |
+| focus `v1.3.8廢棄`     | 輸入框獲得焦點時觸發   | event: Event                   |
+| onAdd `v1.3.8`       | 點擊增加按鈕時觸發     | event: Event                   |
+| onReduce `v1.3.8`    | 點擊減少按鈕時觸發     | event: Event                   |
+| onOverlimit `v1.3.8` | 點擊不可用的按鈕時觸發 | event: Event                   |
+| onChangeFuc `v1.3.8`    | 值改變時觸發           | value:  number , event : Event |
+| onBlurFuc `v1.3.8`      | 輸入框失去焦點時觸發   | event: Event                   |
+| onFocus `v1.3.8`     | 輸入框獲得焦點時觸發   | event: Event                   |

@@ -6,78 +6,171 @@
 
 ### 安装
 ```javascript
+// react
 import { Notify } from '@nutui/nutui-react';
+// taro
+import { Notify } from '@nutui/nutui-react-taro';
 ```
 
 ## 代码演示
 
 ### 基础用法
 
+:::demo
+
 ```tsx
- <Cell title="基础用法"
- click={(event: React.MouseEvent) => { 
-    baseNotify('基础用法')
- }}
- />
-const baseNotify = (msg: string) => {
-    Notify.text(msg,{
-      onClosed: () => {
-        console.log('close');
-      },
-      onClick: () => {
-        console.log('click');
-      }
-    })
+import  React, {useState} from "react";
+import { Notify, Cell } from '@nutui/nutui-react';
+
+const App = () => {
+    const baseNotify = (msg: string) => {
+        Notify.text(msg, {
+        onClosed: () => {
+            console.log('close')
+        },
+        onClick: () => {
+            console.log('click')
+        },
+        })
+    }
+    return (
+        <>
+            <Cell
+            title="基础用法"
+            click={(event: React.MouseEvent) => {
+                baseNotify('基础用法')
+            }}
+            />
+        </>
+    )
 }
+export default App
 ```
+:::
+
 ## 通知类型
 
-### 主要通知
-```tsx
-Notify.primary('通知内容')
-```
-### 成功通知
-```tsx
+:::demo
 
-Notify.success('通知内容')
-
-```
-### 危险通知
 ```tsx
-Notify.danger(msg)
-```
-### 警告通知
-```tsx
-Notify.warn(msg)
+import  React, {useState} from "react";
+import { Notify, Cell } from '@nutui/nutui-react';
 
-const cusBgNotify = (msg: string) => {
-    Notify.text(msg, { color: '#ad0000', background: '#ffe1e1' })
+const App = () => {
+    const primaryNotify = (msg: string) => {
+        Notify.primary(msg)
+    }
+    const successNotify = (msg: string) => {
+        Notify.success(msg)
+    }
+    const errorNotify = (msg: string) => {
+        Notify.danger(msg)
+    }
+    const warningNotify = (msg: string) => {
+        Notify.warn(msg)
+    }
+    return (
+        <>
+            <Cell
+                title="主要通知"
+                click={(event: React.MouseEvent) => {
+                primaryNotify('主要通知')
+                }}
+            />
+            <Cell
+                title="成功通知"
+                click={(event: React.MouseEvent) => {
+                successNotify('成功通知')
+                }}
+            />
+            <Cell
+                title="危险通知"
+                click={(event: React.MouseEvent) => {
+                errorNotify('危险通知')
+                }}
+            />
+            <Cell
+                title="警告通知"
+                click={(event: React.MouseEvent) => {
+                warningNotify('警告通知')
+                }}
+            />
+        </>
+    )
 }
-const timeNotify = (msg: string) => {
-    Notify.text(msg, { duration: 10000 })
-}
+export default App
 ```
+:::
+
+
 
 ## 自定义
 ### 自定义样式
-```tsx
-Notify.text(msg, { color: '#ad0000', background: '#ffe1e1',className:'aa' })
 
+:::demo
+
+```tsx
+import  React, {useState} from "react";
+import { Notify, Cell } from '@nutui/nutui-react';
+
+const App = () => {
+    const cusBgNotify = (msg: string) => {
+        Notify.text(msg, { color: '#ad0000', background: '#ffe1e1' })
+    }
+    return (
+        <>
+            <Cell
+                title="自定义背景色和字体颜色"
+                click={(event: React.MouseEvent) => {
+                    cusBgNotify('自定义背景色和字体颜色')
+                }}
+            />
+        </>
+    )
+}
+export default App
 ```
+:::
+
+
 
 ### 自定义时长
+
+:::demo
+
 ```tsx
+import  React, {useState} from "react";
+import { Notify, Cell } from '@nutui/nutui-react';
 
-const timeNotify = (msg: string) => {
-    Notify.text(msg, { duration: 10000 })
+const App = () => {
+    const timeNotify = (msg: string) => {
+        Notify.text(msg, { duration: 1000 })
+    }
+    const positionNotify = (msg: string) => {
+        Notify.text(msg, { position: 'bottom' })
+    }
+    return (
+        <>
+             <Cell
+                title="自定义时长"
+                click={(event: React.MouseEvent) => {
+                    timeNotify('自定义时长')
+                }}
+            />
+            <Cell
+                title="自定义位置"
+                click={(event: React.MouseEvent) => {
+                    positionNotify('自定义位置')
+                }}
+            />
+        </>
+    )
 }
-
-<Button type="primary" onClick={()=>{
-    Notify.hide()
-}}>
-点我关闭通告栏
-</Button>
+export default App
 ```
+:::
+
+
 
 
 ## API
@@ -92,6 +185,7 @@ const timeNotify = (msg: string) => {
 | color      | 字体颜色                                              | String        | 空       |
 | background | 背景颜色                                              | String        | 空       |
 | className | 自定义类名                                            | String/Number | 1        |
+| position `v1.3.0` | 自定义位置 (top, bottom)                                           | String | 'top'        |
 
 ### Events
 

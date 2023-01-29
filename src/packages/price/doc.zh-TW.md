@@ -1,18 +1,49 @@
-# Price 价格
+# Price 價格
 
-### 介绍
+### 介紹
 
-用来对商品价格数值的小数点前后部分应用不同样式，还支持人民币符号、千位分隔符、设置小数点位数等功能。
+用來對商品價格數值的小數點前後部分應用不同樣式，還支持人民幣符號、千位分隔符、設置小數點位數等功能。
 
-### 安装
+### 安裝
 
 ```javascript
+// react
 import { Price } from '@nutui/nutui-react'
+// taro
+import { Price } from '@nutui/nutui-react-taro'
 ```
 
-## 代码演示
+## 代碼演示
 
-### 基本用法
+### 基礎用法 small normal large
+
+:::demo
+
+```tsx
+import  React from "react"
+import { Price, Cell } from '@nutui/nutui-react'
+
+const App = () => {
+  return (
+    <>
+        <Cell>
+            <Price price={0} size="small" needSymbol thousands />
+        </Cell>
+        <Cell>
+            <Price price={0} size="normal" needSymbol thousands />
+        </Cell>
+        <Cell>
+            <Price price={0} size="large" needSymbol thousands />
+        </Cell>
+    </>
+  );
+};
+export default App;
+```
+
+:::
+
+### 不保留小數
 
 :::demo
 
@@ -23,7 +54,13 @@ import { Price, Cell } from '@nutui/nutui-react'
 const App = () => {
   return (
     <Cell>
-        <Price price={1010} needSymbol={false} thousands />
+        <Price
+          price={8888}
+          decimalDigits={0}
+          needSymbol
+          size="normal"
+          thousands
+        />
     </Cell>
   );
 };
@@ -32,7 +69,7 @@ export default App;
 
 :::
 
-### 有人民币符号，无千位分隔
+### 有人民幣符號，無千位分隔
 
 :::demo
 
@@ -43,7 +80,7 @@ import { Price, Cell } from '@nutui/nutui-react'
 const App = () => {
   return (
     <Cell>
-        <Price price={10010.01} needSymbol thousands={false} />
+        <Price price={10010.01} size="normal" needSymbol thousands={false} />
     </Cell>
   );
 };
@@ -52,7 +89,7 @@ export default App;
 
 :::
 
-### 带人民币符号，有千位分隔，保留小数点后三位
+### 帶人民幣符號，有千位分隔，保留小數點後三位
 
 :::demo
 
@@ -63,7 +100,13 @@ import { Price, Cell } from '@nutui/nutui-react'
 const App = () => {
   return (
     <Cell>
-        <Price price={15213.1221} decimalDigits={3} needSymbol thousands />
+         <Price
+          price={15213.1221}
+          size="normal"
+          decimalDigits={3}
+          needSymbol
+          thousands
+        />
     </Cell>
   );
 };
@@ -72,7 +115,34 @@ export default App;
 
 :::
 
-### 异步随机变更
+### 調整 symbol 符號位置
+
+:::demo
+
+```tsx
+import  React from "react"
+import { Price, Cell } from '@nutui/nutui-react'
+
+const App = () => {
+  return (
+    <Cell>
+        <Price
+          price={8888.01}
+          size="normal"
+          position="after"
+          symbol="元"
+          needSymbol
+          thousands
+        />
+    </Cell>
+  );
+};
+export default App;
+```
+
+:::
+
+### 異步隨機變更
 
 :::demo
 
@@ -93,7 +163,13 @@ const App = () => {
   }, [])
   return (
     <Cell>
-      <Price price={price} decimalDigits={3} needSymbol thousands />
+        <Price
+          price={price}
+          decimalDigits={3}
+          size="normal"
+          needSymbol
+          thousands
+        />
     </Cell>
   );
 };
@@ -106,10 +182,12 @@ export default App;
 
 ### Props
 
-| 参数           | 说明                     | 类型    | 默认值 |
+| 參數           | 說明                     | 類型    | 默認值 |
 | -------------- | ------------------------ | ------- | ------ |
-| price          | 价格数量                 | Number  | 0      |
-| need-symbol    | 是否需要加上 symbol 符号 | Boolean | true   |
-| symbol         | 符号类型                 | String  | &yen;  |
-| decimal-digits | 小数位位数               | Number  | 2      |
-| thousands      | 是否按照千分号形式显示   | Boolean | false  |
+| price          | 價格數量                 | Number  | 0      |
+| needSymbol    | 是否需要加上 symbol 符號 | Boolean | true   |
+| symbol         | 符號類型                 | String  | &yen;  |
+| decimalDigits | 小數位位數               | Number  | 2      |
+| thousands      | 是否按照千分號形式顯示   | Boolean | false  |
+| position`v1.3.9`  | 符號顯示在價格前或者後，`before`、`after`  | String           | before |
+| size`v1.3.9`   | 價格尺寸，`large`、`normal`、`small`     | String           | large |

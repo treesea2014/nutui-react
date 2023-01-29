@@ -1,13 +1,22 @@
-import React, { ForwardRefRenderFunction, HTMLAttributes, forwardRef } from 'react'
+import React, {
+  ForwardRefRenderFunction,
+  HTMLAttributes,
+  forwardRef,
+} from 'react'
 import classNames from 'classnames'
 import Button from '@/packages/button'
 import { DialogWrapper } from './DialogWrapper'
 import confirm from './Confirm'
-import { DialogProps, DialogReturnProps, DialogComponent, ConfirmProps } from './config'
-import { useConfig } from '@/packages/configprovider'
+import {
+  BasicDialogProps,
+  DialogReturnProps,
+  DialogComponent,
+  ConfirmProps,
+} from './config'
 
+export type DialogProps = BasicDialogProps
 const defaultProps = {
-  okText: '确定',
+  okText: '确认',
   cancelText: '取消',
   mask: true,
   closeOnClickOverlay: true,
@@ -25,10 +34,10 @@ const BaseDialog: ForwardRefRenderFunction<
   unknown,
   Partial<DialogProps> & HTMLAttributes<HTMLDivElement>
 > = (props, ref) => {
-  const { locale } = useConfig()
   const {
     visible,
     footer,
+    noFooter,
     noOkBtn,
     noCancelBtn,
     lockScroll,
@@ -42,10 +51,11 @@ const BaseDialog: ForwardRefRenderFunction<
     ...restProps
   } = props
 
-  const renderFooter = () => {
-    if (footer === null) return
+  const renderFooter = function () {
+    if (footer === null || noFooter) return ''
 
-    const handleCancel = () => {
+    const handleCancel = (e: MouseEvent) => {
+      e.stopPropagation()
       if (!cancelAutoClose) return
 
       onClosed?.()
@@ -55,7 +65,8 @@ const BaseDialog: ForwardRefRenderFunction<
       }
     }
 
-    const handleOk = (e?: any) => {
+    const handleOk = (e: MouseEvent) => {
+      e.stopPropagation()
       onClosed?.()
       onOk?.(e)
       if (lockScroll && visible) {
@@ -71,20 +82,22 @@ const BaseDialog: ForwardRefRenderFunction<
             plain
             type="primary"
             className="nut-dialog__footer-cancel"
-            onClick={() => handleCancel()}
+            onClick={handleCancel}
           >
-            {locale.cancel || cancelText}
+            {cancelText}
           </Button>
         )}
         {!noOkBtn && (
           <Button
             size="small"
             type="primary"
-            className={classNames('nut-dialog__footer-ok', { disabled: okBtnDisabled })}
+            className={classNames('nut-dialog__footer-ok', {
+              disabled: okBtnDisabled,
+            })}
             disabled={okBtnDisabled}
-            onClick={() => handleOk()}
+            onClick={handleOk}
           >
-            {locale.confirm || okText}
+            {okText}
           </Button>
         )}
       </>

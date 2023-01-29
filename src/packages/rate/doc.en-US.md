@@ -1,18 +1,21 @@
-#  Rate 评分
+#  Rate 
 
-### 介绍
+### introduce
 
-用于快速的评级操作，或对评价进行展示。
+Use for quick rating actions, or to showcase reviews.
 
-### 安装
+### Install
 
 ```ts
+// react
 import { Rate } from '@nutui/nutui-react';
+// taro
+import { Rate } from '@nutui/nutui-react-taro';
 ```
 
-## 代码演示
+## Code demonstration
 
-### 基础用法  
+### Basic usage
 
 :::demo
 ```tsx
@@ -31,7 +34,7 @@ export default App;
 ```
 :::
         
-### 半星  
+### half star  
 
 :::demo
 ```tsx
@@ -49,7 +52,7 @@ export default App;
 
 ```
 :::
-### 自定义 icon   
+### customize icon   
 
 :::demo
 ```tsx
@@ -67,7 +70,7 @@ export default App;
 
 ```
 :::
-### 自定义数量  
+### custom quantity  
 
 :::demo
 ```tsx
@@ -85,7 +88,25 @@ export default App;
 
 ```
 :::
-### 自定义颜色 
+### Select the minimum quantity (support half star)  
+
+:::demo
+```tsx
+import  React from "react";
+import { Rate } from '@nutui/nutui-react';
+
+const App = () => {
+  return ( 
+    <>   
+    <Rate count="5" modelValue="2" minimizeValue="3"/>
+    </>
+  );
+};  
+export default App;
+
+```
+:::
+### custom color 
 
 :::demo
 ```tsx
@@ -103,7 +124,7 @@ export default App;
 
 ```
 :::
-### 禁用状态  
+### disabled state  
 
 :::demo
 ```tsx
@@ -121,7 +142,7 @@ export default App;
 
 ```
 :::
-### 只读状态  
+### readonly state  
 
 :::demo
 ```tsx
@@ -139,7 +160,7 @@ export default App;
 
 ```
 :::
-### 绑定事件  
+### bind event  
 
 :::demo
 ```tsx
@@ -152,7 +173,7 @@ const App = () => {
   }
   return ( 
     <>   
-    <Rate modelValue="3" change={onChange} />
+    <Rate modelValue="3" onChange={onChange} />
     </>
   );
 };  
@@ -160,7 +181,7 @@ export default App;
 
 ```
 :::
-### 自定义尺寸 35px  
+### custom iconSize 35px  
 
 :::demo
 ```tsx
@@ -183,21 +204,22 @@ export default App;
 
 ## Prop
 
-| 字段           | 说明                                      | 类型    | 默认值      |
+| field           | explain                                 | type    | default    |
 |----------------|-------------------------------------------|---------|-------------|
-| modelValue        | 当前 star 数不能大于count | Number  | -           |
-| count          | star 总数                                 | Number  | 5           |
-| iconSize      | star 大小                                 | Number  | 18          |
-| activeColor   | 图标选中颜色                              | String  | #fa200c     |
-| voidColor     | 图标未选中颜色                            | String  | #ccc        |
-| uncheckedIcon | 使用图标(未选中)                          | String  | star-n      |
-| checkedIcon   | 使用图标(选中)                            | String  | star-fill-n |
-| allowHalf     | 是否半星                                  | Boolean | false       |
-| readonly       | 是否只读                                  | Boolean | false       |
-| disabled       | 是否禁用                                  | Boolean | false       |
-| spacing        | 间距                                      | Number  | 20          |
+| modelValue     | The current number of stars <= count     | Number    | -           |
+| count          | total number of stars                    | Number  | 5           |
+| minimizeValue  | At least the number of STAR              | Number  | 0           |
+| iconSize      | size of star                              | Number  | 18          |
+| activeColor   | Icon selection color                      | String  | #fa200c     |
+| voidColor     | Icon unselected color                    | String  | #ccc        |
+| uncheckedIcon | Use icon (unchecked)                    | String  | star-n      |
+| checkedIcon   | Use icon (checked)                       | String  | star-fill-n |
+| allowHalf     | Half star or not                         | Boolean | false       |
+| readonly       |Read only                              | Boolean | false       |
+| disabled       | Disable or not                          | Boolean | false       |
+| spacing        | spacing                                  | Number  | 20          |
 
 ## Event
-| 字段   | 说明                       | 回调参数 |
+| field   | explain                                          | Callback Arguments  |
 |--------|----------------------------|----------|
-| change | 当前分值修改时时触发的事件 | 当前值   |
+| onChange `v1.3.3` | Event triggered when the current score is modified | Current value   |

@@ -87,7 +87,44 @@ const enUS: BaseLang = {
   comment: {
     complaintsText: 'I have a complaint',
     additionalReview: (day: number) => `Review after ${day} days of purchase`,
-    additionalImages: (length: number) => `There are ${length} follow-up comments`,
+    additionalImages: (length: number) =>
+      `There are ${length} follow-up comments`,
+  },
+  searchbar: {
+    basePlaceholder: 'Go to jd.com and buy good things',
+    text: 'text',
+    test: 'test',
+    title1: 'basic usage',
+    title2: 'search box shape and maximum length',
+    title3: 'background settings inside and outside the search box',
+    title4: 'search box text settings',
+    title5: 'custom icon settings',
+    title6: 'data change monitoring',
+  },
+  audio: {
+    back: 'fastBack',
+    forward: 'forward',
+    pause: 'pause',
+    start: 'start',
+    mute: 'mute',
+    tips: 'The onplayend event will only be triggered when loop = false',
+  },
+  datepicker: {
+    year: 'Year',
+    month: 'Month',
+    day: 'Day',
+    hour: 'Hour',
+    min: 'Minute',
+    seconds: 'Second',
+  },
+  pullToRefresh: {
+    pullingText: 'Pulling',
+    canReleaseText: 'Release to refresh',
+    refreshingText: 'Loading...',
+    completeText: 'Refresh successful',
+  },
+  watermark: {
+    errorCanvasTips: 'Canvas is not supported in the current environment',
   },
 }
 export default enUS

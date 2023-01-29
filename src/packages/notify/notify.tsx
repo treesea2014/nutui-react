@@ -2,7 +2,7 @@ import * as React from 'react'
 import Notification, { NotificationProps } from './Notification'
 
 let messageInstance: any = null
-interface INotifyProps {
+export interface NotifyProps {
   id: string
   color?: string
   msg: string
@@ -10,21 +10,29 @@ interface INotifyProps {
   className?: string
   background?: string
   type: string
+  position: string
+  isWrapTeleport: boolean
   onClick: () => void
   onClosed: () => void
 }
 
-const options: INotifyProps = {
+const options: NotifyProps = {
   msg: '',
   id: '',
   duration: 3000, // 时长
+  color: '',
   type: 'danger',
   className: '',
+  position: 'top',
+  isWrapTeleport: true,
   onClosed: () => {},
   onClick: () => {},
 }
 
-function getInstance(props: NotificationProps, callback: (notification: any) => void) {
+function getInstance(
+  props: NotificationProps,
+  callback: (notification: any) => void
+) {
   if (messageInstance) {
     messageInstance.destroy()
     messageInstance = null
@@ -36,12 +44,12 @@ function getInstance(props: NotificationProps, callback: (notification: any) => 
 }
 
 function notice(opts: any) {
-  function close() {
-    if (messageInstance) {
-      messageInstance.destroy()
-      messageInstance = null
-    }
-  }
+  // function close() {
+  //   if (messageInstance) {
+  //     messageInstance.destroy()
+  //     messageInstance = null
+  //   }
+  // }
   opts = { ...options, ...opts }
   getInstance(opts, (notification: any) => {
     messageInstance = notification

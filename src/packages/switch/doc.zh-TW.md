@@ -1,18 +1,21 @@
-#  Switch 开关
+#  Switch 開關
 
-### 介绍
+### 介紹
 
-用来打开或关闭选项。
+用來打開或關閉選項。
 
-### 安装
+### 安裝
 
 ```ts
+// react
 import { Switch } from '@nutui/nutui-react';
+// taro
+import { Switch } from '@nutui/nutui-react-taro';
 ```
 
-## 代码演示
+## 代碼演示
 
-### 基础用法
+### 基礎用法
 
 :::demo
 ```tsx
@@ -32,7 +35,7 @@ export default App;
 :::
 
 
-### 禁用状态
+### 禁用狀態
 
 :::demo
 ```tsx
@@ -51,7 +54,7 @@ export default App;
 ```
 :::
 
-### change事件
+### onChange事件
 
 :::demo
 ```tsx
@@ -59,12 +62,12 @@ import  React from "react";
 import { Switch } from '@nutui/nutui-react';
 
 const App = () => {
-  const change = (value: boolean, event: Event) => {
-    alert(`触发了change事件，开关状态：${value}`)
+  const onChange = (value: boolean, event: Event) => {
+    alert(`觸發了onChange事件，開關狀態：${value}`)
   }
   return ( 
     <>   
-    <Switch change={(value, event) => change(value, event)} />
+    <Switch onChange={(value, event) => onChange(value, event)} />
     </>
   );
 };  
@@ -72,7 +75,7 @@ export default App;
 
 ```
 :::
-### 异步控制
+### 異步控制
 
 :::demo
 ```tsx
@@ -82,8 +85,8 @@ import { Switch } from '@nutui/nutui-react';
 const App = () => {
   const [checkedAsync, setCheckedAsync] = useState(true)
   
-  const changeAsync = (value: boolean, event: Event) => {
-    alert(`2秒后异步触发 ${value}`)
+  const onChangeAsync = (value: boolean, event: Event) => {
+    alert(`2秒後異步觸發 ${value}`)
     setTimeout(() => {
       setCheckedAsync(value)
     }, 2000)
@@ -93,7 +96,7 @@ const App = () => {
     <Switch
       checked={checkedAsync}
       isAsync
-      change={(value, event) => changeAsync(value, event)}
+      onChange={(value, event) => onChangeAsync(value, event)}
      />
     </>
   );
@@ -102,7 +105,7 @@ export default App;
 
 ```
 :::
-### 自定义颜色
+### 自定義顏色
 
 :::demo
 ```tsx
@@ -130,7 +133,7 @@ import { Switch } from '@nutui/nutui-react';
 const App = () => {
   return ( 
     <>   
-    <Switch activeText="开" inactiveText="关" />
+    <Switch activeText="開" inactiveText="關" />
     </>
   );
 };  
@@ -146,19 +149,19 @@ export default App;
 
 ### Props
 
-| 参数           | 说明             | 类型    | 默认值                |
+| 參數           | 說明             | 類型    | 默認值                |
 |----------------|------------------|---------|-----------------------|
-| checked        | 开关状态         | Boolean | `false`               |
-| disable        | 禁用状态         | Boolean | `false`               |
-| activeColor   | 打开时的背景颜色 | String  | `#fa2c19`    |
-| inactiveColor | 关闭时的背景颜色 | String  | `#ebebeb` |
-| activeText    | 打开时文字描述   | String  | -                     |
-| inactiveText  | 关闭时文字描述   | String  | -                     |
-| isAsync  | 开关状态是否异步修改   | Boolean  | `false`                     |
+| checked        | 開關狀態         | Boolean | `false`               |
+| disable        | 禁用狀態         | Boolean | `false`               |
+| activeColor   | 打開時的背景顏色 | String  | `#fa2c19`    |
+| inactiveColor | 關閉時的背景顏色 | String  | `#ebebeb` |
+| activeText    | 打開時文字描述   | String  | -                     |
+| inactiveText  | 關閉時文字描述   | String  | -                     |
+| isAsync  | 開關狀態是否異步修改   | Boolean  | `false`                     |
 
 
 ### Events
 
-| 事件名 | 说明           | 回调参数                      |
+| 事件名 | 說明           | 回調參數                      |
 |--------|----------------|-------------------------------|
-| change | 切换开关时触发 | (value: boolean,event: Event) |
+| onChange `v1.3.8`| 切換開關時觸發 | (value: boolean,event: Event) |

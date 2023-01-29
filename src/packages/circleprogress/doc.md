@@ -6,11 +6,12 @@
 
 ### 安装
 
-``` ts
+```ts
+// react
 import { CircleProgress } from '@nutui/nutui-react';
+// taro
+import { CircleProgress } from '@nutui/nutui-react-taro';
 ```
-
-## 代码演示
 
 ### 基础用法
 
@@ -112,20 +113,6 @@ export default App;
 import React, { useState } from "react";
 import { Button, CircleProgress } from '@nutui/nutui-react';
 
-const demoBtnStyle = {
-  textAlign: 'center',
-  width: '100%',
-  height: '50px',
-  borderTop: '1px solid rgba(234, 240, 251, 1)',
-  paddingTop: '6px',
-  background: 'rgba(255, 255, 255, 1)'
-}
-const demoPieceStyle = {
-  display: 'flex',
-  justifyContent: 'center',
-  background: 'rgba(255, 255, 255, 1)',
-  padding: '10px 0'
-}
 const App = () => {
   const [percent, setPercent] = useState(30)
   
@@ -145,10 +132,10 @@ const App = () => {
 
   return (
     <>
-      <div className="demo__piece" style={demoPieceStyle}>
+      <div className="demo__piece">
         <CircleProgress progress={percent} />
       </div>
-      <div className="demo__btn" style={demoBtnStyle}>
+      <div className="demo__btn">
         <Button type="primary" onClick={setReduceVal}>
           减少
         </Button>

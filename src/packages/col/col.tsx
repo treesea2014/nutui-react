@@ -1,10 +1,18 @@
-import React, { FunctionComponent, useEffect, useState, CSSProperties, useContext } from 'react'
+import React, {
+  FunctionComponent,
+  useEffect,
+  useState,
+  CSSProperties,
+  useContext,
+} from 'react'
 import { DataContext } from '@/packages/row/UserContext'
 
+type EventType = 'row' | 'col'
 export interface ColProps {
   span: string | number
   offset: string | number
   gutter: string | number
+  onClick: (e: any, type: EventType) => void
 }
 const defaultProps = {
   span: '24',
@@ -12,10 +20,17 @@ const defaultProps = {
   gutter: '0',
 } as ColProps
 
-export const Col: FunctionComponent<Partial<ColProps> & React.HTMLAttributes<HTMLDivElement>> = (
-  props
-) => {
-  const { span, offset, children } = { ...defaultProps, ...props }
+export const Col: FunctionComponent<
+  Partial<ColProps> & Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick'>
+> = (props) => {
+  const {
+    className,
+    style = {},
+    span,
+    offset,
+    children,
+    onClick,
+  } = { ...defaultProps, ...props }
   const [colName, setColName] = useState('')
   const [colStyle, setColStyle] = useState({})
   const { gutter } = useContext(DataContext) as any
@@ -40,7 +55,13 @@ export const Col: FunctionComponent<Partial<ColProps> & React.HTMLAttributes<HTM
   }, [span, offset, gutter])
 
   return (
-    <div className={`${colName}`} style={{ ...colStyle }}>
+    <div
+      className={`${colName} ${className}`}
+      style={{ ...style, ...colStyle }}
+      onClick={(e) => {
+        onClick && onClick(e, 'col')
+      }}
+    >
       {children}
     </div>
   )

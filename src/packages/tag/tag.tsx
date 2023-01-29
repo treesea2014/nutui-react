@@ -1,7 +1,14 @@
-import React, { CSSProperties, FunctionComponent, useEffect, useState } from 'react'
+import React, {
+  CSSProperties,
+  FunctionComponent,
+  useEffect,
+  useState,
+} from 'react'
 import Icon from '@/packages/icon'
 
-export interface TagProps {
+import { BasicComponent, ComponentDefaults } from '@/utils/typings'
+
+export interface TagProps extends BasicComponent {
   type: TagType
   color: string
   textColor: string
@@ -9,13 +16,16 @@ export interface TagProps {
   round: boolean
   mark: boolean
   closeable: boolean
-  isShow: boolean
   prefixCls: string
   onClick: (e: MouseEvent) => void
+  onClose: (e?: any) => void
+  children?: React.ReactNode
 }
 
 export type TagType = 'default' | 'primary' | 'success' | 'warning' | 'danger'
+
 const defaultProps = {
+  ...ComponentDefaults,
   type: 'default',
   color: '',
   textColor: '',
@@ -23,12 +33,14 @@ const defaultProps = {
   round: false,
   mark: false,
   closeable: false,
-  isShow: true,
   prefixCls: 'nut-tag',
+  onClose: (e: any) => {},
   onClick: (e: MouseEvent) => {},
 } as TagProps
 export const Tag: FunctionComponent<Partial<TagProps>> = (props) => {
   const {
+    className,
+    style,
     color,
     plain,
     type,
@@ -38,16 +50,30 @@ export const Tag: FunctionComponent<Partial<TagProps>> = (props) => {
     mark,
     closeable,
     textColor,
-    isShow,
     onClick,
+    onClose,
+    iconClassPrefix,
+    iconFontClassName,
   } = {
     ...defaultProps,
     ...props,
   }
   const [btnName, setBtnName] = useState('')
+  const [isTagShow, setIsTagShow] = useState(true)
   useEffect(() => {
     setBtnName(classes())
-  }, [type, color, textColor, plain, round, mark, closeable, prefixCls, isShow, onClick])
+  }, [
+    type,
+    color,
+    textColor,
+    plain,
+    round,
+    mark,
+    closeable,
+    prefixCls,
+    onClick,
+    onClose,
+  ])
   const classes = () => {
     const prefixCls = 'nut-tag'
     return `${prefixCls}
@@ -78,24 +104,40 @@ export const Tag: FunctionComponent<Partial<TagProps>> = (props) => {
     return style
   }
   return (
-    <div>
+    <>
       {closeable ? (
-        isShow ? (
-          <div className={`${btnName}`} style={getStyle()} onClick={(e) => handleClick(e)}>
+        isTagShow && (
+          <div
+            className={`${btnName} ${className}`}
+            style={{ ...style, ...getStyle() }}
+            onClick={(e) => handleClick(e)}
+          >
             {children && <span className="text">{children}</span>}
-            {closeable && (
-              <Icon className="_icon" name="close" size="12" onClick={(e) => handleClick(e)} />
-            )}
+            <Icon
+              classPrefix={iconClassPrefix}
+              fontClassName={iconFontClassName}
+              className="_icon"
+              name="close"
+              size="12"
+              onClick={(e) => {
+                setIsTagShow(false)
+                if (props.onClose) {
+                  props.onClose(e)
+                }
+              }}
+            />
           </div>
-        ) : (
-          ''
         )
       ) : (
-        <div className={`${btnName}`} style={getStyle()} onClick={(e) => handleClick(e)}>
+        <div
+          className={`${btnName} ${className}`}
+          style={{ ...style, ...getStyle() }}
+          onClick={(e) => handleClick(e)}
+        >
           {children && <span className="text">{children}</span>}
         </div>
       )}
-    </div>
+    </>
   )
 }
 

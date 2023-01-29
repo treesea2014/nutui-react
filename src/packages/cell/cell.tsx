@@ -1,67 +1,86 @@
 import React, { FunctionComponent, ReactNode } from 'react'
-import { useHistory } from 'react-router-dom'
 import bem from '@/utils/bem'
 import Icon from '@/packages/icon'
 
-export interface CellProps {
-  title: string
-  subTitle: string
+import { BasicComponent, ComponentDefaults } from '@/utils/typings'
+
+export interface CellProps extends BasicComponent {
+  title: ReactNode
+  subTitle: ReactNode
   desc: string
   descTextAlign: string
   isLink: boolean
-  to: string
-  replace: boolean
-  url: string
   icon: string
+  roundRadius: string | number
+  url: string
+  replace: boolean
+  center: boolean
+  size: string
   className: string
-  extra: ReactNode
-  click: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  iconSlot: ReactNode
+  linkSlot: ReactNode
+  onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
+
 const defaultProps = {
-  title: '',
-  subTitle: '',
+  ...ComponentDefaults,
+  title: null,
+  subTitle: null,
   desc: '',
   descTextAlign: 'right',
   isLink: false,
+  icon: '',
+  roundRadius: '6px',
+  url: '',
   to: '',
   replace: false,
-  url: '',
-  icon: '',
+  center: false,
+  size: '',
   className: '',
-  extra: '',
-  click: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {},
+  iconSlot: null,
+  linkSlot: null,
+  onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {},
 } as CellProps
-export const Cell: FunctionComponent<Partial<CellProps> & React.HTMLAttributes<HTMLDivElement>> = (
-  props
-) => {
+
+export const Cell: FunctionComponent<
+  Partial<CellProps> & Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>
+> = (props) => {
   const {
     children,
-    click,
-    isLink,
-    to,
-    url,
-    replace,
-    className,
-    descTextAlign,
-    desc,
-    icon,
+    onClick,
     title,
     subTitle,
-    extra,
+    desc,
+    descTextAlign,
+    isLink,
+    icon,
+    roundRadius,
+    url,
+    replace,
+    center,
+    size,
+    className,
+    iconSlot,
+    linkSlot,
+    iconClassPrefix,
+    iconFontClassName,
     ...rest
   } = {
     ...defaultProps,
     ...props,
   }
   const b = bem('cell')
-  const history = useHistory()
   const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    click(event)
-    if (to && history) {
-      history[replace ? 'replace' : 'push'](to)
-    } else if (url) {
-      replace ? location.replace(url) : (location.href = url)
+    onClick(event)
+    if (url) {
+      replace ? window.location.replace(url) : (window.location.href = url)
     }
+  }
+
+  const baseStyle = {
+    borderRadius: Number.isNaN(Number(roundRadius))
+      ? String(roundRadius)
+      : `${roundRadius}px`,
   }
 
   const styles =
@@ -73,36 +92,59 @@ export const Cell: FunctionComponent<Partial<CellProps> & React.HTMLAttributes<H
         }
   return (
     <div
-      className={`${b({ clickable: !!(isLink || to) }, [className])} `}
+      className={`${b(
+        { clickable: !!isLink, center, large: size === 'large' },
+        [className]
+      )} `}
       onClick={(event) => handleClick(event)}
+      style={baseStyle}
       {...rest}
     >
       {children || (
         <>
-          {title || subTitle || icon ? (
-            <>
-              <div className={`${b('title', { icon: !!icon })}`}>
-                {icon ? <Icon name={icon} className={`${b('icon')}`} /> : null}
-                {subTitle ? (
-                  <>
-                    <div className={b('maintitle')}>{title}</div>
-                    <div className={b('subtitle')}>{subTitle}</div>
-                  </>
-                ) : (
-                  <>{title}</>
-                )}
-              </div>
-            </>
+          {icon || iconSlot ? (
+            <div className={b('icon')}>
+              {iconSlot ||
+                (icon ? (
+                  <Icon
+                    classPrefix={iconClassPrefix}
+                    fontClassName={iconFontClassName}
+                    name={icon}
+                    className="icon"
+                  />
+                ) : null)}
+            </div>
+          ) : null}
+          {title || subTitle ? (
+            <div className={`${b('title')}`}>
+              {title ? <div className={b('maintitle')}>{title}</div> : null}
+              {subTitle ? (
+                <div className={b('subtitle')}>{subTitle}</div>
+              ) : null}
+            </div>
           ) : null}
           {desc ? (
-            <div className={b('desc')} style={styles as React.CSSProperties}>
+            <div
+              className={b('value', {
+                alone: !title && !subTitle,
+              })}
+              style={styles as React.CSSProperties}
+            >
               {desc}
             </div>
           ) : null}
+          {!linkSlot && isLink ? (
+            <Icon
+              classPrefix={iconClassPrefix}
+              fontClassName={iconFontClassName}
+              name="right"
+              className={b('link')}
+            />
+          ) : (
+            linkSlot
+          )}
         </>
       )}
-      {extra || null}
-      {!extra && (isLink || to) ? <Icon name="right" className={b('link')} /> : null}
     </div>
   )
 }

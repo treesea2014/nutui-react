@@ -13,8 +13,8 @@ export interface ActionSheetProps {
   color: string
   description: string
   menuItems: ItemType<string | boolean>[]
-  cancel: () => void
-  choose: (item: any, index: number) => void
+  onCancel: () => void
+  onChoose: (item: any, index: number) => void
   visible: boolean
   className: string
   style: React.CSSProperties
@@ -28,8 +28,8 @@ const defaultProps = {
   color: '#ee0a24',
   description: '',
   menuItems: [],
-  cancel: () => {},
-  choose: () => {},
+  onCancel: () => {},
+  onChoose: () => {},
   visible: false,
   className: '',
   style: {},
@@ -38,6 +38,7 @@ export const ActionSheet: FunctionComponent<
   Partial<ActionSheetProps> & React.HTMLAttributes<HTMLDivElement>
 > = (props) => {
   const {
+    children,
     cancelTxt,
     optionTag,
     optionSubTag,
@@ -46,8 +47,8 @@ export const ActionSheet: FunctionComponent<
     color,
     description,
     menuItems,
-    cancel,
-    choose,
+    onCancel,
+    onChoose,
     visible,
     className,
     style,
@@ -57,18 +58,19 @@ export const ActionSheet: FunctionComponent<
   const b = bem('actionsheet')
 
   const isHighlight = (item: ItemType<string | boolean>) => {
-    return props.chooseTagValue && props.chooseTagValue === item[props.optionTag || 'name']
+    return props.chooseTagValue &&
+      props.chooseTagValue === item[props.optionTag || 'name']
       ? props.color
-      : '#1a1a1a'
+      : '$dark1'
   }
 
   const cancelActionSheet = () => {
-    cancel && cancel()
+    onCancel && onCancel()
   }
 
   const chooseItem = (item: ItemType<string | boolean>, index: number) => {
     if (!item.disable) {
-      choose && choose(item, index)
+      onChoose && onChoose(item, index)
     }
   }
 
@@ -78,18 +80,22 @@ export const ActionSheet: FunctionComponent<
       visible={visible}
       position="bottom"
       onClose={() => {
-        cancel && cancel()
+        onCancel && onCancel()
       }}
     >
       <div className={`${b()} ${className}`} style={style} {...rest}>
         {title && <div className={b('title')}>{title}</div>}
-        {description && <div className={`${b('item')} desc`}>{description}</div>}
+        {description && (
+          <div className={`${b('item')} desc`}>{description}</div>
+        )}
         {menuItems.length ? (
           <div className={b('menu')}>
             {menuItems.map((item, index) => {
               return (
                 <div
-                  className={`${b('item')} ${item.disable ? b('item-disabled') : ''}`}
+                  className={`${b('item')} ${
+                    item.disable ? b('item-disabled') : ''
+                  }`}
                   style={{ color: isHighlight(item) }}
                   key={index}
                   onClick={() => chooseItem(item, index)}
@@ -100,7 +106,9 @@ export const ActionSheet: FunctionComponent<
               )
             })}
           </div>
-        ) : null}
+        ) : (
+          children
+        )}
         {cancelTxt && (
           <div className={b('cancel')} onClick={() => cancelActionSheet()}>
             {cancelTxt}

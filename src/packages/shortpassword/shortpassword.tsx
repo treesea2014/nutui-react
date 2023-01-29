@@ -1,10 +1,18 @@
-import React, { CSSProperties, FunctionComponent, useEffect, useRef, useState } from 'react'
+import React, {
+  CSSProperties,
+  FunctionComponent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import bem from '@/utils/bem'
 import Popup from '@/packages/popup'
 import Icon from '@/packages/icon'
 import { useConfig } from '@/packages/configprovider'
 
-export interface ShortPasswordProps {
+import { BasicComponent, ComponentDefaults } from '@/utils/typings'
+
+export interface ShortPasswordProps extends BasicComponent {
   title: string
   desc: string
   tips: string
@@ -16,17 +24,19 @@ export interface ShortPasswordProps {
   length: string | number
   className: string
   style?: CSSProperties
-  change: (value: string | number) => void
+  onChange: (value: string | number) => void
   onOk: (value: string | number) => void
   onCancel: () => void
   onClose: () => void
   onTips: () => void
-  complete: (value: string | number) => void
+  onComplete: (value: string | number) => void
 }
+
 const defaultProps = {
-  title: '请输入密码',
-  desc: '您使用了虚拟资产，请进行验证',
-  tips: '忘记密码',
+  ...ComponentDefaults,
+  title: '',
+  desc: '',
+  tips: '',
   visible: false,
   modelValue: '',
   errorMsg: '',
@@ -34,15 +44,16 @@ const defaultProps = {
   closeOnClickOverlay: true,
   length: 6, // 1~6
   className: '',
-  change: (value: number | string) => {},
+  onChange: (value: number | string) => {},
   onOk: (value: number | string) => {},
   onCancel: () => {},
   onClose: () => {},
   onTips: () => {},
-  complete: (value: number | string) => {},
+  onComplete: (value: number | string) => {},
 } as ShortPasswordProps
 export const ShortPassword: FunctionComponent<
-  Partial<ShortPasswordProps> & React.HTMLAttributes<HTMLDivElement>
+  Partial<ShortPasswordProps> &
+    Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>
 > = (props) => {
   const { locale } = useConfig()
   const {
@@ -57,12 +68,14 @@ export const ShortPassword: FunctionComponent<
     length,
     style,
     className,
-    change,
+    onChange,
     onOk,
     onTips,
     onCancel,
     onClose,
-    complete,
+    onComplete,
+    iconClassPrefix,
+    iconFontClassName,
     ...reset
   } = props
   const b = bem('shortpassword')
@@ -77,7 +90,7 @@ export const ShortPassword: FunctionComponent<
     setInnerVisible(visible)
   }, [visible])
   useEffect(() => {
-    if (modelValue) {
+    if (typeof modelValue !== 'undefined') {
       setInputValue(modelValue)
     }
   }, [modelValue])
@@ -88,25 +101,28 @@ export const ShortPassword: FunctionComponent<
     }
     setInputValue(inputValue)
     if (String(inputValue).length === comLen) {
-      complete && complete(inputValue)
+      onComplete && onComplete(inputValue)
     }
-    change && change(inputValue)
+    onChange && onChange(inputValue)
   }
   const systemStyle = () => {
     const u = navigator.userAgent
     const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1 // g
     const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) // ios终端
+    let style = {}
+    console.log(isIOS, isAndroid)
     if (isIOS) {
-      return {
+      style = {
         paddingRight: '1200px',
       }
     }
     if (isAndroid) {
-      return {
+      style = {
         opacity: 0,
         zIndex: 10,
       }
     }
+    return style
   }
   const focus = () => {
     if (textInput.current) {
@@ -132,8 +148,12 @@ export const ShortPassword: FunctionComponent<
         onClickCloseIcon={onClose}
       >
         <div className={`${b()} ${className}`} style={{ ...style }} {...reset}>
-          <div className={b('title')}>{locale.shortpassword.title || title}</div>
-          <div className={b('subtitle')}>{locale.shortpassword.desc || desc}</div>
+          <div className={b('title')}>
+            {title || locale.shortpassword.title}
+          </div>
+          <div className={b('subtitle')}>
+            {desc || locale.shortpassword.desc}
+          </div>
 
           <div className={b('input')}>
             <input
@@ -160,10 +180,16 @@ export const ShortPassword: FunctionComponent<
           </div>
           <div className={b('message')}>
             <div className={b('message__error')}>{errorMsg}</div>
-            {tips ? (
+            {tips || locale.shortpassword.tips ? (
               <div className={b('message__forget')}>
-                <Icon className="icon" size="11px" name="tips" />
-                <div onClick={onTips}>{locale.shortpassword.tips || tips}</div>
+                <Icon
+                  classPrefix={iconClassPrefix}
+                  fontClassName={iconFontClassName}
+                  className="icon"
+                  size="11px"
+                  name="tips"
+                />
+                <div onClick={onTips}>{tips || locale.shortpassword.tips}</div>
               </div>
             ) : null}
           </div>

@@ -1,101 +1,195 @@
-#  Notify 消息通知
+#  Notify
 
-### 介绍
+### Intro
 
-在页面顶部展示消息提示
+Show message tips at the top of the page
 
-### 安装
+### Install
 ```javascript
+// react
 import { Notify } from '@nutui/nutui-react';
+// taro
+import { Notify } from '@nutui/nutui-react-taro';
 ```
 
-## 代码演示
+## Demo
 
-### 基础用法
+### Basic Usage
+
+:::demo
 
 ```tsx
- <Cell title="基础用法"
- click={(event: React.MouseEvent) => { 
-    baseNotify('基础用法')
- }}
- />
-const baseNotify = (msg: string) => {
-    Notify.text(msg,{
-      onClosed: () => {
-        console.log('close');
-      },
-      onClick: () => {
-        console.log('click');
-      }
-    })
+import  React, {useState} from "react";
+import { Notify, Cell } from '@nutui/nutui-react';
+
+const App = () => {
+    const baseNotify = (msg: string) => {
+        Notify.text(msg, {
+        onClosed: () => {
+            console.log('close')
+        },
+        onClick: () => {
+            console.log('click')
+        },
+        })
+    }
+    return (
+        <>
+            <Cell
+            title="Basic Usage"
+            click={(event: React.MouseEvent) => {
+                baseNotify('Basic Usage')
+            }}
+            />
+        </>
+    )
 }
+export default App
 ```
-## 通知类型
+:::
 
-### 主要通知
-```tsx
-Notify.primary('通知内容')
-```
-### 成功通知
-```tsx
+## Notify Type
 
-Notify.success('通知内容')
 
-```
-### 危险通知
-```tsx
-Notify.danger(msg)
-```
-### 警告通知
-```tsx
-Notify.warn(msg)
+:::demo
 
-const cusBgNotify = (msg: string) => {
-    Notify.text(msg, { color: '#ad0000', background: '#ffe1e1' })
+```tsx
+import  React, {useState} from "react";
+import { Notify, Cell } from '@nutui/nutui-react';
+
+const App = () => {
+    const primaryNotify = (msg: string) => {
+        Notify.primary(msg)
+    }
+    const successNotify = (msg: string) => {
+        Notify.success(msg)
+    }
+    const errorNotify = (msg: string) => {
+        Notify.danger(msg)
+    }
+    const warningNotify = (msg: string) => {
+        Notify.warn(msg)
+    }
+    return (
+        <>
+            <Cell
+                title="Primary Notify"
+                click={(event: React.MouseEvent) => {
+                    primaryNotify('Primary Notify')
+                }}
+            />
+            <Cell
+                title="Success Notify"
+                click={(event: React.MouseEvent) => {
+                successNotify('Success Notify')
+                }}
+            />
+            <Cell
+                title="Error Notify"
+                click={(event: React.MouseEvent) => {
+                errorNotify('Error Notify')
+                }}
+            />
+            <Cell
+                title="Warning Notify"
+                click={(event: React.MouseEvent) => {
+                warningNotify('Warning Notify')
+                }}
+            />
+        </>
+    )
 }
-const timeNotify = (msg: string) => {
-    Notify.text(msg, { duration: 10000 })
-}
+export default App
 ```
+:::
 
-## 自定义
-### 自定义样式
+
+## Custom
+### Custom Style
+
+:::demo
+
 ```tsx
-Notify.text(msg, { color: '#ad0000', background: '#ffe1e1',className:'aa' })
+import  React, {useState} from "react";
+import { Notify, Cell } from '@nutui/nutui-react';
 
-```
-
-### 自定义时长
-```tsx
-
-const timeNotify = (msg: string) => {
-    Notify.text(msg, { duration: 10000 })
+const App = () => {
+    const cusBgNotify = (msg: string) => {
+        Notify.text(msg, { color: '#ad0000', background: '#ffe1e1' })
+    }
+    return (
+        <>
+            <Cell
+                title="Customize background and font colors"
+                click={(event: React.MouseEvent) => {
+                    cusBgNotify('Customize background and font colors')
+                }}
+            />
+        </>
+    )
 }
-
-<Button type="primary" onClick={()=>{
-    Notify.hide()
-}}>
-点我关闭通告栏
-</Button>
+export default App
 ```
+:::
+
+
+
+### Custom Duration
+
+:::demo
+
+```tsx
+import  React, {useState} from "react";
+import { Notify, Cell } from '@nutui/nutui-react';
+
+const App = () => {
+    const timeNotify = (msg: string) => {
+        Notify.text(msg, { duration: 1000 })
+    }
+    const positionNotify = (msg: string) => {
+        Notify.text(msg, { position: 'bottom' })
+    }
+    return (
+        <>
+             <Cell
+                title="Custom Duration"
+                click={(event: React.MouseEvent) => {
+                    timeNotify('Custom Duration')
+                }}
+            />
+            <Cell
+                title="Custom Position"
+                click={(event: React.MouseEvent) => {
+                    positionNotify('Custom Postion')
+                }}
+            />
+        </>
+    )
+}
+export default App
+```
+:::
+
+
 
 
 ## API
     
 ### Props
     
-| 字段       | 说明                                                  | 类型          | 默认值   |
+| Attribute      | Description                                    | Type          | Default   |
 |------------|-------------------------------------------------------|---------------|----------|
-| type       | 提示的信息类型（primary，success  ，danger，warning） | String        | 'danger' |
-| message    | 展示文案，支持通过\n换行                              | Boolean       | false    |
-| duration   | 展示时长(ms)，值为 0 时，notify 不会消失              | String        | 3000     |
-| color      | 字体颜色                                              | String        | 空       |
-| background | 背景颜色                                              | String        | 空       |
-| className | 自定义类名                                            | String/Number | 1        |
+| type       | Display Type（primary,success ,danger,warning）      | String        | 'danger' |
+| message    | Display copy, support line feed through \n              | Boolean       | false    |
+| duration   | Display duration (ms),value is 0 ,notify not disappear | String        | 3000     |
+| color      | Font Color                                               | String        | -        |
+| background | Background color                                         | String        | -        |
+| className | Custom class name                                        | String/Number | 1        |
+| position `v1.3.0` | Custom Position (top, bottom)                               | String | 'top'        |
 
 ### Events
 
-| 事件名 | 说明         | 回调参数 |
+| Event | Description         | Arguments |
 |--------|--------------|----------|
-| onClick  | 点击事件回调 | 无       |
-| onClosed | 关闭事件回调 | 无       |
+| onClick  | Emitted when notify is clicked | -       |
+| onClosed | Emitted when notify is closed | -       |

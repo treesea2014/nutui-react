@@ -5,22 +5,26 @@ import '@testing-library/jest-dom'
 import { Uploader } from '../uploader'
 
 test('should render base uploader and type', () => {
-  const { container, getByTestId } = render(<Uploader data-testid="uploader-type" />)
+  const { container, getByTestId } = render(
+    <Uploader data-testid="uploader-type" />
+  )
   expect(getByTestId('uploader-type')).toHaveClass('nut-uploader')
-  expect(container.querySelector('.nut-uploader__input')?.getAttribute('type')).toBe('file')
+  expect(
+    container.querySelector('.nut-uploader__input')?.getAttribute('type')
+  ).toBe('file')
 })
 
 test('should render base uploader props', () => {
   const change = jest.fn()
   const { container } = render(
     <Uploader
-      autoUpload={true}
-      capture={true}
+      autoUpload
+      capture
       name="files"
       accept=".jpg"
       maximize={1024 * 50}
       maximum={2}
-      change={change}
+      onChange={change}
     />
   )
   const input = container.querySelectorAll('.nut-uploader__input')[0]
@@ -66,15 +70,15 @@ test('should render base uploader other props', () => {
     ]
     return (
       <Uploader
-        isDeletable={true}
+        isDeletable
         defaultFileList={defaultFileList}
         headers={{}}
-        multiple={true}
-        isPreview={true}
+        multiple
+        isPreview
         uploadIcon="dongdong"
         uploadIconSize="20px"
-        removeImage={onDelete}
-        fileItemClick={fileItemClick}
+        onRemove={onDelete}
+        onFileItemClick={fileItemClick}
       />
     )
   }
@@ -88,7 +92,9 @@ test('should render base uploader other props', () => {
 
   const toast2 = container.querySelector('.nut-uploader__preview-img__c')
   expect(toast2).toBeTruthy()
-  fireEvent.click(container.querySelectorAll('.nut-uploader__preview-img__c')[0])
+  fireEvent.click(
+    container.querySelectorAll('.nut-uploader__preview-img__c')[0]
+  )
   expect(fileItemClick).toBeCalled()
   expect(toast2?.getAttribute('src')).toBe(
     'https://m.360buyimg.com/babel/jfs/t1/164410/22/25162/93384/616eac6cE6c711350/0cac53c1b82e1b05.gif'
@@ -123,7 +129,13 @@ test('should render base uploader list', () => {
         uid: '125',
       },
     ]
-    return <Uploader defaultFileList={defaultFileList} uploadIcon="dongdong" listType="list" />
+    return (
+      <Uploader
+        defaultFileList={defaultFileList}
+        uploadIcon="dongdong"
+        listType="list"
+      />
+    )
   }
 
   const { container } = render(<App />)
@@ -132,7 +144,7 @@ test('should render base uploader list', () => {
 })
 
 test('should render base uploader props disabled', () => {
-  const { container } = render(<Uploader disabled={true} />)
+  const { container } = render(<Uploader disabled />)
   const up_load1 = container.querySelector('.nut-uploader__input')
   expect(up_load1?.getAttribute('disabled')).toBe('')
 })
@@ -152,10 +164,10 @@ test('before-delete prop return false', () => {
     ]
     return (
       <Uploader
-        isDeletable={true}
+        isDeletable
         defaultFileList={defaultFileList}
-        removeImage={onDelete}
-        beforeDelete={() => {
+        onRemove={onDelete}
+        onBeforeDelete={() => {
           return false
         }}
       />
@@ -181,10 +193,10 @@ test('before-delete prop return true', () => {
     ]
     return (
       <Uploader
-        isDeletable={true}
+        isDeletable
         defaultFileList={defaultFileList}
-        removeImage={onDelete}
-        beforeDelete={() => {
+        onRemove={onDelete}
+        onBeforeDelete={() => {
           return true
         }}
       />

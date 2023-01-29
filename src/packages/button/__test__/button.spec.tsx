@@ -8,17 +8,24 @@ import { useState } from 'react'
 import { Button } from '../button'
 
 test('should match snapshot', () => {
-  const { asFragment } = render(
+  const { container } = render(
     <Button className="aa" style={{ margin: 8 }} type="primary" shape="round">
       主要按钮
     </Button>
   )
-  expect(asFragment()).toMatchSnapshot()
+  expect(container.firstChild?.nodeName).toBe('BUTTON')
+  expect(container).toMatchSnapshot()
 })
 
 test('should children correctly', () => {
   const { getByText, getByTestId } = render(
-    <Button data-testid="button" className="aa" style={{ margin: 8 }} type="primary" shape="round">
+    <Button
+      data-testid="button"
+      className="aa"
+      style={{ margin: 8 }}
+      type="primary"
+      shape="round"
+    >
       主要按钮
     </Button>
   )
@@ -50,5 +57,7 @@ test('should fireEvent correctly', () => {
   const { container, getByText } = render(<ButtonDemo />)
 
   fireEvent.click(getByText('Click me'))
-  expect(container.querySelector('.nut-button')).toHaveClass('nut-button--loading')
+  expect(container.querySelector('.nut-button')).toHaveClass(
+    'nut-button--loading'
+  )
 })

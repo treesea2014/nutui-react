@@ -20,7 +20,14 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react', 'react-hooks', '@typescript-eslint', 'unused-imports', 'prettier', 'markdown'],
+  plugins: [
+    'react',
+    'react-hooks',
+    '@typescript-eslint',
+    'unused-imports',
+    'markdown',
+    'prettier',
+  ],
   overrides: [
     {
       files: ['src/packages/**/*.md'],
@@ -39,6 +46,16 @@ module.exports = {
     },
   ],
   rules: {
+    'prettier/prettier': [
+      'error',
+      {
+        trailingComma: 'es5',
+        tabWidth: 2,
+        semi: false,
+        singleQuote: true,
+        printWidth: 80,
+      },
+    ],
     radix: 0,
     'unused-imports/no-unused-imports': 2,
     'no-underscore-dangle': 0,
@@ -53,8 +70,11 @@ module.exports = {
     'no-console': 0,
     'no-plusplus': 0,
     'no-script-url': 0,
+    'no-restricted-syntax': 0,
     'no-unused-expressions': 0,
+    'import/no-mutable-exports': 0,
     'jsx-a11y/click-events-have-key-events': 0,
+    'jsx-a11y/no-noninteractive-element-interactions': 0,
     '@typescript-eslint/no-empty-function': 0,
     '@typescript-eslint/no-unused-vars': 0,
     '@typescript-eslint/no-var-requires': 0,
@@ -65,5 +85,20 @@ module.exports = {
     'react/jsx-filename-extension': 0,
     'react/jsx-props-no-spreading': 0,
     'jsx-a11y/no-static-element-interactions': 0,
+    'no-param-reassign': 0,
+    'prefer-destructuring': 0,
+    'jsx-a11y/no-autofocus': 0,
+    'react/no-children-prop': 0,
+    'jsx-a11y/aria-proptypes': 0,
+    'react/require-default-props': 0,
+    'react/sort-comp': [
+      1,
+      {
+        order: ['constructor', 'lifecycle', 'everything-else', 'render'],
+      },
+    ],
+    'no-bitwise': 0,
+    'no-multi-assign': 0, // 禁止连续赋值
+    'no-cond-assign': 0, // 禁止条件表达式中出现赋值操作符
   },
 }

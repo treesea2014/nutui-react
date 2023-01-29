@@ -1,34 +1,37 @@
-import React, { FunctionComponent, MouseEvent, HTMLProps } from 'react'
+import React, { FunctionComponent, MouseEvent } from 'react'
 import classNames from 'classnames'
 import Icon from '@/packages/icon'
 import Overlay from '@/packages/overlay'
 import bem from '@/utils/bem'
 import { useConfig } from '@/packages/configprovider'
+import { BasicComponent, ComponentDefaults } from '@/utils/typings'
 
 type Direction = 'right' | 'left'
 type Position = {
   top?: string
   bottom?: string
 }
-export interface FixedNavProps {
+
+export interface FixedNavProps extends BasicComponent {
   fixednavClass: string
   visible: boolean
   overlay: boolean
-  navList: Array<object>
+  navList: Array<any>
   activeText: string
   unActiveText: string
   position: Position
   type: Direction
   onChange: (v: any) => void
-  onSelected: Function
-  slotList: HTMLProps<HTMLElement>
-  slotBtn: HTMLProps<HTMLElement>
+  onSelected: (v: any, event: MouseEvent) => void
+  slotList: React.ReactNode
+  slotBtn: React.ReactNode
 }
 
 const defaultProps = {
+  ...ComponentDefaults,
   fixednavClass: 'nut-fixednav',
-  activeText: '收起导航',
-  unActiveText: '快速导航',
+  activeText: '',
+  unActiveText: '',
   type: 'right',
   position: {
     top: 'auto',
@@ -53,8 +56,13 @@ export const FixedNav: FunctionComponent<
     type,
     slotList,
     slotBtn,
+    iconClassPrefix,
+    iconFontClassName,
     ...rest
-  } = { ...defaultProps, ...props }
+  } = {
+    ...defaultProps,
+    ...props,
+  }
 
   const b = bem('fixednav')
 
@@ -87,7 +95,13 @@ export const FixedNav: FunctionComponent<
 
   return (
     <div className={classes} style={position} {...rest}>
-      {overlay && <Overlay visible={visible} zIndex={200} onClick={() => onUpdateValue(false)} />}
+      {overlay && (
+        <Overlay
+          visible={visible}
+          zIndex={200}
+          onClick={() => onUpdateValue(false)}
+        />
+      )}
       <div className="list">
         {slotList || (
           <div className="nut-fixednav__list">
@@ -111,11 +125,16 @@ export const FixedNav: FunctionComponent<
       <div className="nut-fixednav__btn" onClick={() => onUpdateValue()}>
         {slotBtn || (
           <>
-            <Icon name="left" color="#fff" />
+            <Icon
+              classPrefix={iconClassPrefix}
+              fontClassName={iconFontClassName}
+              name="left"
+              color="#fff"
+            />
             <div className="text">
               {visible
-                ? locale.fixednav.activeText || activeText
-                : locale.fixednav.unActiveText || unActiveText}
+                ? activeText || locale.fixednav.activeText
+                : unActiveText || locale.fixednav.unActiveText}
             </div>
           </>
         )}

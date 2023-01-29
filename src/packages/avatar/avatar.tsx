@@ -6,14 +6,17 @@ import React, {
   useContext,
   MouseEventHandler,
 } from 'react'
+import classNames from 'classnames'
 import { AvatarContext } from '@/packages/avatargroup/AvatarContext'
 import bem from '@/utils/bem'
-import classNames from 'classnames'
 import Icon from '@/packages/icon'
 
-export interface AvatarProps {
+import { BasicComponent, ComponentDefaults } from '@/utils/typings'
+
+export interface AvatarProps extends BasicComponent {
   size: string
   icon: string
+  iconSize?: string | number
   shape: AvatarShape
   bgColor: string
   color: string
@@ -23,13 +26,17 @@ export interface AvatarProps {
   alt: string
   style: React.CSSProperties
   activeAvatar: (e: MouseEvent) => void
+  onActiveAvatar: (e: MouseEvent) => void
   onError: (e: any) => void
 }
 
 export type AvatarShape = 'round' | 'square'
+
 const defaultProps = {
+  ...ComponentDefaults,
   size: '',
   icon: '',
+  iconSize: '',
   bgColor: '#eee',
   color: '#666',
   prefixCls: 'nut-avatar',
@@ -49,10 +56,14 @@ export const Avatar: FunctionComponent<
     url,
     alt,
     icon,
+    iconSize,
     className,
     style,
     activeAvatar,
+    onActiveAvatar,
     onError,
+    iconClassPrefix,
+    iconFontClassName,
     ...rest
   } = {
     ...defaultProps,
@@ -79,8 +90,13 @@ export const Avatar: FunctionComponent<
     backgroundColor: `${bgColor}`,
     color: `${color}`,
     marginLeft:
-      avatarIndex != 1 && parent?.propAvatarGroup?.span ? `${parent?.propAvatarGroup?.span}px` : '',
-    zIndex: parent?.propAvatarGroup?.zIndex == 'right' ? `${Math.abs(maxSum - avatarIndex)}` : '',
+      avatarIndex !== 1 && parent?.propAvatarGroup?.span
+        ? `${parent?.propAvatarGroup?.span}px`
+        : '',
+    zIndex:
+      parent?.propAvatarGroup?.zIndex === 'right'
+        ? `${Math.abs(maxSum - avatarIndex)}`
+        : '',
     ...style,
   }
 
@@ -89,7 +105,7 @@ export const Avatar: FunctionComponent<
     color: `${parent?.propAvatarGroup?.maxColor}`,
   }
 
-  const iconStyles = !!icon ? icon : ''
+  const iconStyles = icon || ''
 
   useEffect(() => {
     const avatarChildren = parent?.avatarGroupRef?.current.children
@@ -100,15 +116,23 @@ export const Avatar: FunctionComponent<
 
   const avatarLength = (children: any) => {
     for (let i = 0; i < children.length; i++) {
-      if (children[i] && children[i].classList && children[i].classList[0] == 'nut-avatar') {
+      if (
+        children[i] &&
+        children[i].classList &&
+        children[i].classList[0] === 'nut-avatar'
+      ) {
         children[i].setAttribute('data-index', i + 1)
       }
     }
-    const index = avatarRef?.current?.dataset?.index
+    const index = Number(avatarRef?.current?.dataset?.index)
     const maxCount = parent?.propAvatarGroup?.maxCount
     setMaxSum(children.length)
     setAvatarIndex(index)
-    if (index == children.length && index != maxCount && children.length > maxCount) {
+    if (
+      index === children.length &&
+      index !== maxCount &&
+      children.length > maxCount
+    ) {
       setShowMax(true)
     }
   }
@@ -120,9 +144,8 @@ export const Avatar: FunctionComponent<
   }
 
   const clickAvatar: MouseEventHandler<HTMLDivElement> = (e: any) => {
-    if (props.activeAvatar) {
-      props.activeAvatar(e)
-    }
+    activeAvatar && activeAvatar(e)
+    onActiveAvatar && onActiveAvatar(e)
   }
 
   return (
@@ -140,8 +163,23 @@ export const Avatar: FunctionComponent<
           {(!parent?.propAvatarGroup?.maxCount ||
             avatarIndex <= parent?.propAvatarGroup?.maxCount) && (
             <>
-              {url && <img src={url} alt={alt} onError={errorEvent} />}
-              {icon && <Icon className="icon" name={iconStyles} />}
+              {url && (
+                <img
+                  className="avatar-img"
+                  src={url}
+                  alt={alt}
+                  onError={errorEvent}
+                />
+              )}
+              {icon && (
+                <Icon
+                  classPrefix={iconClassPrefix}
+                  fontClassName={iconFontClassName}
+                  className="icon"
+                  name={iconStyles}
+                  size={iconSize}
+                />
+              )}
               {children && <span className="text">{children}</span>}
             </>
           )}

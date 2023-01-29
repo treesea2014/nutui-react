@@ -1,14 +1,14 @@
-import React, { useState, useContext, useImperativeHandle } from 'react'
+import React, { useContext } from 'react'
 import classNames from 'classnames'
 import { DataContext } from '@/packages/swiper/UserContext'
 import bem from '@/utils/bem'
 
-interface SwiperItemProps {
+export interface SwiperItemProps {
   direction?: string
   size?: 0
 }
 
-interface IStyle {
+interface Style {
   width?: string
   height?: string
   transform?: string
@@ -23,19 +23,13 @@ export const SwiperItem = React.forwardRef<
   Partial<SwiperItemProps> & React.HTMLAttributes<HTMLDivElement>
 >((props, ref) => {
   const _props = { ...defaultProps, ...props }
-  const { children, direction, size } = _props
+  const { className, style, children, direction, size } = _props
   const parent: any = useContext(DataContext)
-  const [offset, setOffset] = useState(0)
   const b = bem('swiper-item')
-  const classes = classNames(b(''))
+  const classes = classNames(b(''), className)
 
-  useImperativeHandle<HTMLDivElement, any>(ref, () => ({
-    changeOffset: (num: number) => {
-      setOffset(num)
-    },
-  }))
-  const style = () => {
-    const style: IStyle = {}
+  const getStyle = () => {
+    const style: Style = {}
     const _direction = parent?.propSwiper.direction || direction
     const _size = parent?.size || size
     if (_size) {
@@ -45,7 +39,7 @@ export const SwiperItem = React.forwardRef<
   }
 
   return (
-    <div className={classes} style={style()}>
+    <div className={classes} style={{ ...style, ...getStyle() }}>
       {children}
     </div>
   )

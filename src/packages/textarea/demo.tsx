@@ -10,6 +10,8 @@ interface T {
   readOnlyState: string
   disabled: string
   disabledState: string
+  textAlign: string
+  alignRight: string
 }
 
 const TextAreaDemo = () => {
@@ -22,6 +24,8 @@ const TextAreaDemo = () => {
       readOnlyState: '只读状态',
       disabled: '禁用',
       disabledState: '禁用状态',
+      textAlign: '文本位置',
+      alignRight: '文本居右',
     },
     'zh-TW': {
       basic: '基礎用法',
@@ -31,6 +35,8 @@ const TextAreaDemo = () => {
       readOnlyState: '只讀狀態',
       disabled: '禁用',
       disabledState: '禁用狀態',
+      textAlign: '文本位置',
+      alignRight: '文本居右',
     },
     'en-US': {
       basic: 'Basic usage',
@@ -40,15 +46,17 @@ const TextAreaDemo = () => {
       readOnlyState: 'Read-only status',
       disabled: 'Disable',
       disabledState: 'Disabled state',
+      textAlign: 'TextAlign',
+      alignRight: 'TextAlign Right',
     },
   })
 
   const [value1, updateValue1] = useState('')
   const [value2] = useState('')
   const [value3] = useState('')
+  const [value4] = useState('')
 
   useEffect(() => {
-    console.log('translated.basic', translated.basic)
     updateValue1(translated.basic)
   }, [translated])
 
@@ -58,28 +66,31 @@ const TextAreaDemo = () => {
 
   return (
     <>
-      <div className="demo">
+      <div className="demo" style={{ paddingBottom: '20px' }}>
         <h2>{translated.basic}</h2>
         <TextArea
           defaultValue={value1}
           className="text-1"
           style={{ fontSize: '12px' }}
-          change={(value, event) => {
+          onChange={(value, event) => {
             change(value, event)
           }}
-          blur={() => {
+          onBlur={() => {
             console.log('blur')
           }}
-          focus={() => {
+          onFocus={() => {
             console.log('focus')
           }}
         />
         <h2>{translated.numbers}</h2>
         <TextArea defaultValue={value2} limitshow maxlength="20" />
         <h2>{translated.autoHeight}</h2>
-        <TextArea defaultValue={value3} rows="10" autosize />
+        <TextArea defaultValue={value3} rows="1" autosize />
         <h2>{translated.readOnly}</h2>
-        <TextArea readonly defaultValue={`textarea${translated.readOnlyState}`} />
+        <TextArea
+          readonly
+          defaultValue={`textarea${translated.readOnlyState}`}
+        />
         <h2>{translated.disabled}</h2>
         <TextArea
           disabled
@@ -87,6 +98,8 @@ const TextAreaDemo = () => {
           limitshow
           maxlength="20"
         />
+        <h2>{translated.textAlign}</h2>
+        <TextArea defaultValue={translated.alignRight} textAlign="right" />
       </div>
     </>
   )
